@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="board">
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs" id="seeker-nav">
 			<div class="liner"></div>
 			<li rel-index="0" class="active"><a href="#step-1" class="btn"
 				aria-controls="step-1" role="tab" data-toggle="tab"> <span><i
