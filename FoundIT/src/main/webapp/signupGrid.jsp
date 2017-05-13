@@ -31,7 +31,7 @@
                     <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x">Reviewer</i>
+                                <i class="fa fa-search-plus fa-3x">Recruiter</i>
                             </div>
                         </div>
                         <img src="img/portfolio/circus.png" class="img-responsive" alt="Circus tent">
