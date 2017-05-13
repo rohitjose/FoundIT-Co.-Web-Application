@@ -1,0 +1,182 @@
+<div class="row">
+	<div class="board">
+		<ul class="nav nav-tabs">
+			<div class="liner"></div>
+			<li rel-index="0" class="active"><a href="#step-1" class="btn"
+				aria-controls="step-1" role="tab" data-toggle="tab"> <span><i
+						class="glyphicon glyphicon-lock"></i></span>
+			</a></li>
+			<li rel-index="1"><a href="#step-2" class="btn disabled"
+				aria-controls="step-2" role="tab" data-toggle="tab"> <span><i
+						class="glyphicon glyphicon-user"></i></span>
+			</a></li>
+			<li rel-index="2"><a href="#step-3" class="btn disabled"
+				aria-controls="step-3" role="tab" data-toggle="tab"> <span><i
+						class="glyphicon glyphicon-wrench"></i></span>
+			</a></li>
+			<li rel-index="3"><a href="#step-4" class="btn disabled"
+				aria-controls="step-4" role="tab" data-toggle="tab"> <span><i
+						class="glyphicon glyphicon-ok-sign"></i></span>
+			</a></li>
+		</ul>
+	</div>
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="step-1">
+			<div class="col-md-12">
+				<h3>Login Credentials</h3>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">User Name</label> <input
+							maxlength="100" type="text" required="required"
+							class="form-control" placeholder="Enter Name" />
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">Email</label> <input maxlength="100"
+							type="email" required="required" class="form-control"
+							placeholder="Enter Email" />
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">Password</label> <input
+							maxlength="100" type="password" required="required"
+							class="form-control" placeholder="Enter password" />
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">Confirm Password</label> <input
+							maxlength="100" type="password" required="required"
+							class="form-control" placeholder="Confirm Password" />
+					</div>
+				</div>
+				<button id="step-1-next"
+					class="btn btn-lg btn-primary nextBtn pull-right">Next</button>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="step-2">
+			<div class="col-md-12">
+				<h3>Profile</h3>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">First Name</label> <input
+							maxlength="100" type="text" required="required"
+							class="form-control" placeholder="Enter first name" />
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">Last Name</label> <input
+							maxlength="10" type="text" required="required"
+							class="form-control" placeholder="Enter first name" />
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">Phone Number</label> <input
+							maxlength="100" type="tel" class="form-control"
+							placeholder="Enter phone number" />
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">Website (option)</label> <input
+							maxlength="100" type="text" class="form-control"
+							placeholder="URL" />
+					</div>
+				</div>
+				<h3>Address</h3>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">Street Address</label> <input
+							maxlength="100" type="text" required="required"
+							class="form-control" placeholder="Enter Address" />
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">City</label> <input maxlength="40"
+							type="text" required="required" class="form-control"
+							placeholder="Enter City" />
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">ZIP</label> <input maxlength="5"
+							type="text" required="required" class="form-control"
+							placeholder="Enter ZIP Code" />
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">State</label> <input maxlength="2"
+							type="text" required="required" class="form-control"
+							placeholder="Enter State" />
+					</div>
+				</div>
+				<h3>Career Summary</h3>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">Headline</label> <input
+							maxlength="34" type="text" required="required"
+							class="form-control" placeholder="Enter headline" />
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label class="control-label">Current Position</label> <input
+							maxlength="100" type="text" required="required"
+							class="form-control" placeholder="Enter current position" />
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label class="control-label">Summary</label>
+						<textarea required="required" class="form-control"
+							placeholder="Career description" rows="3"></textarea>
+					</div>
+				</div>
+				<button id="step-2-next"
+					class="btn btn-lg btn-primary nextBtn pull-right">Next</button>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="step-3">
+			<div class="col-md-12">
+				<h3>Career Background</h3>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label class="control-label">Work Experience</label>
+						<textarea required="required" class="form-control"
+							placeholder="Work Experience" rows="3"></textarea>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label class="control-label">Education</label>
+						<textarea required="required" class="form-control"
+							placeholder="Education" rows="3"></textarea>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="form-group">
+						<label class="control-label">Skills</label>
+						<textarea required="required" class="form-control"
+							placeholder="Professional Skills" rows="3"></textarea>
+					</div>
+				</div>
+				<button id="step-3-next"
+					class="btn btn-lg btn-primary nextBtn pull-right">Next</button>
+			</div>
+		</div>
+		<div role="tabpanel" class="tab-pane" id="step-4">
+			<div class="col-md-12">
+				<br> <br>
+				<p>Please click on the below button to sign up into Found IT Co.</p>
+				<button id="step-4-next" class="btn btn-lg btn-primary pull-right"
+					data-dismiss="modal">Sign Up</button>
+			</div>
+		</div>
+	</div>
+</div>
