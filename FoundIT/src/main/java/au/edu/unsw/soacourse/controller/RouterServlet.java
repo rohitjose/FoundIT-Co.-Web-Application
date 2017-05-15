@@ -15,13 +15,9 @@ public class RouterServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		System.out.println("POST method");
 		String action = request.getParameter("action");
-		PrintWriter printer = response.getWriter();
-		String username = request.getParameter("seeker_username");
-		String work_experience = request.getParameter("seeker_experience");
+		
 		
 		System.out.println(action);
-		System.out.println(username);
-		System.out.println(work_experience);
 	}
 
 	/**

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import au.edu.unsw.soacourse.dto.User;
 
 public class foundITDao {
-	Connection c;
+	static Connection c;
 	String sql_connector = "','";
 
 	// Initialize the connection
@@ -80,8 +80,6 @@ public class foundITDao {
 				+ queryParams.get("role") + "')";
 		String user_id_sql = "SELECT id AS value FROM user ORDER BY id DESC LIMIT 1";
 		int user_id = 0;
-		
-		String role = queryParams.get("role");
 
 		try {
 			executeSQL(user_sql);
@@ -101,7 +99,7 @@ public class foundITDao {
 				+ sql_connector + getValue(queryParams, "business_domain") + sql_connector
 				+ getValue(queryParams, "experience") + sql_connector + getValue(queryParams, "education")
 				+ sql_connector + getValue(queryParams, "skills") + "')";
-		
+
 		try {
 			executeSQL(profile_sql);
 		} catch (SQLException e) {
@@ -110,16 +108,16 @@ public class foundITDao {
 		}
 
 	}
-	
+
 	// Login Support function
-	public User login(String username, String password) throws SQLException{
-		String sql = "SELECT * FROM user WHERE username='"+username+"'";
+	public User login(String username, String password) throws SQLException {
+		String sql = "SELECT * FROM user WHERE username='" + username + "'";
 		User user = new User();
 		String auth_pass = new String();
-		
+
 		Statement stmt = c.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
-		
+
 		while (rs.next()) {
 			user.setUser_id(rs.getInt("id"));
 			user.setEmail(rs.getString("username"));
@@ -128,12 +126,48 @@ public class foundITDao {
 		}
 		rs.close();
 		stmt.close();
-		
-		if(auth_pass.equals(password)){
+
+		if (auth_pass.equals(password)) {
 			return user;
-		}else{
+		} else {
 			return null;
 		}
+	}
+
+	// Insert hiring team
+	public void insertHiringTeam(String teamList, int manager_id) throws SQLException {
+		String sql = "INSERT INTO hiring_team(team_member_list, manager_id) VALUES('" + teamList + "'," + manager_id
+				+ ")";
+		
+		executeSQL(sql);
+	}
+	
+	// Select hiring team
+	public String getHiringTeam(int manager_id) throws SQLException{
+		String sql = "SELECT * FROM hiring_team WHERE manager_id="+manager_id;
+		String team = new String();
+		
+		Statement stmt = c.createStatement();
+
+		ResultSet rs = stmt.executeQuery(sql);
+		
+		while (rs.next()) {
+			team = rs.getString("team_member_list");
+		}
+		
+		return team;
+		
+		
+	}
+	
+	public void updateHiringTeam(String teamList, int manager_id) throws SQLException{
+		String sql = "UPDATE hiring_team SET team_member_list='"+teamList+"' WHERE manager_id="+manager_id;
+		
+		executeSQL(sql);
+	}
+	
+	public void close() throws SQLException{
+		c.close();
 	}
 
 }

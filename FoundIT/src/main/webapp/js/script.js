@@ -35,20 +35,7 @@ $(function() {
 	$('#step-1-next').click(
 			function() {
 				// Check values here
-				var isValid = false;
-
-				var seeker_confirm_password = $("#seeker_confirm_password")
-						.val();
-				var seeker_password = $("#seeker_password").val();
-				var seeker_email = $("#seeker_email").val();
-				var seeker_username = $("#seeker_username").val();
-
-				if (seeker_username.length > 0 && seeker_email.lenght > 0
-						&& seeker_password > 0
-						&& seeker_password === seeker_confirm_password) {
-					isValid = true;
-					alert(seeker_username);
-				}
+				var isValid = true;
 
 				if (isValid) {
 					$('#seeker-nav > li:nth-of-type(2) > a').removeClass(
@@ -185,8 +172,8 @@ function seekerSubmit() {
 
 }
 
-function recruiterSubmit(){
-	
+function recruiterSubmit() {
+
 	var recruiter_username = $("#recruiter_username").val();
 	var recruiter_default_password = $("#recruiter_default_password").val();
 	var recruiter_password = $("#recruiter_password").val();
@@ -197,9 +184,8 @@ function recruiterSubmit(){
 	var recruiter_company = $("#recruiter_company").val();
 	var recruiter_position = $("#recruiter_position").val();
 	var recruiter_summary = $("#recruiter_summary").val();
-	
 
-		$.ajax({
+	$.ajax({
 		type : 'POST',
 		url : 'signup',
 		data : {
@@ -223,10 +209,9 @@ function recruiterSubmit(){
 
 	);
 
-	
 }
 
-function managerSubmit(){
+function managerSubmit() {
 	var manager_username = $("#manager_username").val();
 	var manager_email = $("#manager_email").val();
 	var manager_password = $("#manager_password").val();
@@ -242,7 +227,7 @@ function managerSubmit(){
 	var manager_headline = $("#manager_headline").val();
 	var manager_business_domain = $("#manager_business_domain").val();
 	var manager_summary = $("#manager_summary").val();
-	
+
 	var manager_team_username_1 = $("#manager_team_username_1").val();
 	var manager_team_password_1 = $("#manager_team_password_1").val();
 	var manager_team_username_2 = $("#manager_team_username_2").val();
@@ -253,37 +238,37 @@ function managerSubmit(){
 	var manager_team_password_4 = $("#manager_team_password_4").val();
 	var manager_team_username_5 = $("#manager_team_username_5").val();
 	var manager_team_password_5 = $("#manager_team_password_5").val();
-	
+
 	$.ajax({
 		type : 'POST',
 		url : 'signup',
 		data : {
 			'action' : 'manager_signup',
-			'manager_username' :manager_username,
-			'manager_email' :manager_email,
-			'manager_password' :manager_password,
-			'manager_confirm_password' :manager_confirm_password,
-			'manager_first_name' :manager_first_name,
-			'manager_last_name' :manager_last_name,
-			'manager_phone' :manager_phone,
-			'manager_company' :manager_company,
-			'manager_street_address' :manager_street_address,
-			'manager_city' :manager_city,
-			'manager_zip' :manager_zip,
-			'manager_state' :manager_state,
-			'manager_headline' :manager_headline,
-			'manager_business_domain' :manager_business_domain,
-			'manager_summary' :manager_summary,
-			'manager_team_username_1':manager_team_username_1,
-			'manager_team_password_1':manager_team_password_1,
-			'manager_team_username_2':manager_team_username_2,
-			'manager_team_password_2':manager_team_password_2,
-			'manager_team_username_3':manager_team_username_3,
-			'manager_team_password_3':manager_team_password_3,
-			'manager_team_username_4':manager_team_username_4,
-			'manager_team_password_4':manager_team_password_4,
-			'manager_team_username_5':manager_team_username_5,
-			'manager_team_password_5':manager_team_password_5,
+			'manager_username' : manager_username,
+			'manager_email' : manager_email,
+			'manager_password' : manager_password,
+			'manager_confirm_password' : manager_confirm_password,
+			'manager_first_name' : manager_first_name,
+			'manager_last_name' : manager_last_name,
+			'manager_phone' : manager_phone,
+			'manager_company' : manager_company,
+			'manager_street_address' : manager_street_address,
+			'manager_city' : manager_city,
+			'manager_zip' : manager_zip,
+			'manager_state' : manager_state,
+			'manager_headline' : manager_headline,
+			'manager_business_domain' : manager_business_domain,
+			'manager_summary' : manager_summary,
+			'manager_team_username_1' : manager_team_username_1,
+			'manager_team_password_1' : manager_team_password_1,
+			'manager_team_username_2' : manager_team_username_2,
+			'manager_team_password_2' : manager_team_password_2,
+			'manager_team_username_3' : manager_team_username_3,
+			'manager_team_password_3' : manager_team_password_3,
+			'manager_team_username_4' : manager_team_username_4,
+			'manager_team_password_4' : manager_team_password_4,
+			'manager_team_username_5' : manager_team_username_5,
+			'manager_team_password_5' : manager_team_password_5,
 		},
 		success : function(data) {
 			console.log('Done');
@@ -292,18 +277,5 @@ function managerSubmit(){
 	}
 
 	);
-	
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
