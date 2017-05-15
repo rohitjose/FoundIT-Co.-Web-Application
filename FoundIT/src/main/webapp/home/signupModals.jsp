@@ -12,7 +12,7 @@
 					<div class="modal-body">
 						<h2>Job Seeker</h2>
 						<hr class="star-primary">
-						<jsp:include page="jobseekerSignUp.jsp" />
+						<jsp:include page="../candidate/jobseekerSignUp.jsp" />
 					</div>
 				</div>
 			</div>
@@ -33,7 +33,7 @@
 					<div class="modal-body">
 						<h2>Manager</h2>
 						<hr class="star-primary">
-						<jsp:include page="managerSignUp.jsp" />
+						<jsp:include page="../manager/managerSignUp.jsp" />
 					</div>
 				</div>
 			</div>
@@ -54,7 +54,7 @@
 					<div class="modal-body">
 						<h2>Recruiter</h2>
 						<hr class="star-primary">
-						<jsp:include page="recruiterSignUp.jsp" />
+						<jsp:include page="../reviewer/recruiterSignUp.jsp" />
 					</div>
 				</div>
 			</div>

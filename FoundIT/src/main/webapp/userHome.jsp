@@ -5,7 +5,7 @@
 <head>
 
 <!-- Header Import -->
-<jsp:include page="header.jsp" />
+<jsp:include page="common/header.jsp" />
 
 </head>
 
@@ -54,7 +54,7 @@
 
 
 	<!-- Footer -->
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="common/footer.jsp" />
 
 
 	<!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
@@ -76,7 +76,7 @@
 
 
 	<!-- Script Imports -->
-	<jsp:include page="scriptImportFooter.jsp" />
+	<jsp:include page="common/scriptImportFooter.jsp" />
 
 </body>
 

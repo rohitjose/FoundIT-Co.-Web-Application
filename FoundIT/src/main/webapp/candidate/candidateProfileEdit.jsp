@@ -2,21 +2,22 @@
     <div class="board">
         <ul class="nav nav-tabs" id="seeker-nav">
             <div class="liner"></div>
+            <li rel-index="0" class="active"><a href="#step-1" class="btn"
+                aria-controls="step-1" role="tab" data-toggle="tab"> <span><i
+                        class="glyphicon glyphicon-user"></i></span>
+            </a></li>
             <li rel-index="1"><a href="#step-2" class="btn disabled"
                 aria-controls="step-2" role="tab" data-toggle="tab"> <span><i
-                        class="glyphicon glyphicon-user"></i></span>
+                        class="glyphicon glyphicon-wrench"></i></span>
             </a></li>
             <li rel-index="2"><a href="#step-3" class="btn disabled"
                 aria-controls="step-3" role="tab" data-toggle="tab"> <span><i
-                        class="glyphicon glyphicon-wrench"></i></span>
-            </a></li>
-            <li rel-index="3"><a href="#step-4" class="btn disabled"
-                aria-controls="step-4" role="tab" data-toggle="tab"> <span><i
                         class="glyphicon glyphicon-ok-sign"></i></span>
             </a></li>
         </ul>
     </div>
-        <div role="tabpanel" class="tab-pane active" id="step-2">
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="step-1">
             <div class="col-md-12">
                 <h3>Profile</h3>
                 <div class="col-md-6">
@@ -98,11 +99,11 @@
                             placeholder="Career description" rows="3" id="seeker_summary"></textarea>
                     </div>
                 </div>
-                <button id="step-2-next"
+                <button id="step-1-next"
                     class="btn btn-lg btn-primary nextBtn pull-right">Next</button>
             </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="step-3">
+        <div role="tabpanel" class="tab-pane" id="step-2">
             <div class="col-md-12">
                 <h3>Career Background</h3>
                 <div class="col-md-12">
@@ -126,16 +127,16 @@
                             placeholder="Professional Skills" rows="3" id="seeker_skills"></textarea>
                     </div>
                 </div>
-                <button id="step-3-next"
+                <button id="step-2-next"
                     class="btn btn-lg btn-primary nextBtn pull-right">Next</button>
             </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="step-4">
+        <div role="tabpanel" class="tab-pane" id="step-3">
             <div class="col-md-12">
                 <br> <br>
-                <p>Please click on the below button to update your profile</p>
-                <button id="step-4-next" class="btn btn-lg btn-primary pull-right"
-                    data-dismiss="modal" onclick="updateSeekerProfile()">Update</button>
+                <p>Please click on the below button to sign up into Found IT Co.</p>
+                <button id="step-3-next" class="btn btn-lg btn-primary pull-right"
+                    data-dismiss="modal" onclick="seekerSubmit()">Update</button>
             </div>
         </div>
     </div>

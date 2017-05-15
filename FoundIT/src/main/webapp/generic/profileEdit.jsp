@@ -14,19 +14,19 @@
 <%
 	if (role.equals("app-candidate")) {
 %>
-<jsp:include page="candidate/candidateProfileEdit.jsp" />
+<jsp:include page="../candidate/candidateProfileEdit.jsp" />
 <%
 	}
 
 	else if (role.equals("app-manager")) {
 %>
-<jsp:include page="managerProfileEdit.jsp" />
+<jsp:include page="../manager/managerProfileEdit.jsp" />
 <%
 	}
 
 	else if (role.equals("app-reviewer")) {
 %>
-<jsp:include page="reviewerProfileEdit.jsp" />
+<jsp:include page="../reviewer/reviewerProfileEdit.jsp" />
 <%
 	}
 %>

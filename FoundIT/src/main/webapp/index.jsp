@@ -4,7 +4,7 @@
 <head>
 
    <!-- Header Import -->
-   <jsp:include page="header.jsp" />
+   <jsp:include page="common/header.jsp" />
 
 </head>
 
@@ -12,7 +12,7 @@
 <div id="skipnav"><a href="#maincontent">Skip to main content</a></div>
 
     <!-- Navigation -->
-    <jsp:include page="welcomeNav.jsp" />
+    <jsp:include page="home/welcomeNav.jsp" />
 
     <!-- Header -->
     <header>
@@ -31,17 +31,17 @@
     </header>
 
     <!-- Portfolio Grid Section -->
-    <jsp:include page="signupGrid.jsp" />
+    <jsp:include page="home/signupGrid.jsp" />
 
     <!-- About Section -->
-    <jsp:include page="aboutGrid.jsp" />
+    <jsp:include page="home/aboutGrid.jsp" />
 
     <!-- Contact Section -->
-    <jsp:include page="loginGrid.jsp" />
+    <jsp:include page="home/loginGrid.jsp" />
     
 
     <!-- Footer -->
-    <jsp:include page="footer.jsp" />
+    <jsp:include page="common/footer.jsp" />
     
 
     <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
@@ -52,10 +52,10 @@
     </div>
 
     <!-- Portfolio Modals -->
-    <jsp:include page="signupModals.jsp" />
+    <jsp:include page="home/signupModals.jsp" />
 
    <!-- Script Imports -->
-   <jsp:include page="scriptImportFooter.jsp" />
+   <jsp:include page="common/scriptImportFooter.jsp" />
 
 </body>
 

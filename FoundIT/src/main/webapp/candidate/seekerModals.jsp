@@ -12,7 +12,7 @@
 					<div class="modal-body">
 						<h2>Search Jobs</h2>
 						<hr class="star-primary">
-						<jsp:include page="../searchJobsForm.jsp" />
+						<jsp:include page="../generic/searchJobsForm.jsp" />
 					</div>
 				</div>
 			</div>
@@ -33,14 +33,14 @@
 					<div class="modal-body">
 						<h2>Applications</h2>
 						<hr class="star-primary">
-						<jsp:include page="../applicationStatus.jsp" />
+						<jsp:include page="../generic/applicationStatus.jsp" />
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="portfolio-modal modal fade" id="profile"
+<div class="portfolio-modal modal fade" id="edit-profile"
 	tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-content">
 		<div class="close-modal" data-dismiss="modal">
@@ -54,7 +54,7 @@
 					<div class="modal-body">
 						<h2>Profile</h2>
 						<hr class="star-primary">
-						<jsp:include page="../profileEdit.jsp" />
+						<jsp:include page="../generic/profileEdit.jsp" />
 					</div>
 				</div>
 			</div>
