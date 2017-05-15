@@ -307,10 +307,30 @@ function loginUser() {
 
 }
 
+// Search jobs
+function searchJobs() {
+	var search_position = $("#search_position").val();
+	var search_description = $("#search_description").val();
+	var search_location = $("#search_location").val();
+	var search_salary = $("#search_salary").val();
+	var search_company = $("#search_company").val();
 
+	$.ajax({
+		type : 'POST',
+		url : 'search',
+		data : {
+			'action' : 'job_search',
+			'search_position' : search_position,
+			'search_description' : search_description,
+			'search_location' : search_location,
+			'search_salary' : search_salary,
+			'search_company' : search_company,
+		},
+		success : function(data) {
+			console.log('Done');
 
+		}
+	}
 
-
-
-
-
+	);
+}

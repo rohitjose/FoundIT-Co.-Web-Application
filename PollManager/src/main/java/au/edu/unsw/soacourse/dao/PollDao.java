@@ -1,5 +1,6 @@
 package au.edu.unsw.soacourse.dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -17,14 +18,14 @@ import au.edu.unsw.soacourse.dto.Vote;
 
 public class PollDao {
 
-	Connection c;
+	static Connection c;
 	String sql_connector = "','";
 
 	// Initialize the connection
 	public PollDao() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:" + this.getClass().getResource("/").getPath() + "/polls");
+			c = DriverManager.getConnection("jdbc:sqlite:" + this.getClass().getResource("/").getPath() + "polls");
 			c.setAutoCommit(false);
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -101,8 +102,37 @@ public class PollDao {
 
 	/* RETRIEVE OPERATIONS FOR THE TABLES */
 
+	public int retrieveValue(String query) {
+
+		int count = 0;
+
+		try {
+
+			// STEP 4: Execute a query
+			Statement stmt = c.createStatement();
+
+			String sql = query;
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				count = rs.getInt("value");
+			}
+
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		}
+		return count;
+
+	}
+
+	public int getLastPollId() {
+		String sql = "SELECT pId AS value FROM polls_info ORDER BY pId DESC LIMIT 1";
+		return retrieveValue(sql);
+	}
+
 	// Get a poll using the pollId
-	public Poll getPoll(int pollId) throws SQLException {
+	public Poll getPoll(int pollId) throws SQLException, IOException {
 		Poll poll = new Poll();
 
 		Statement stmt = c.createStatement();
@@ -113,7 +143,7 @@ public class PollDao {
 		System.out.println(sql);
 
 		while (rs.next()) {
-			poll.setPollId(pollId);
+			poll.setPollId(rs.getInt("pId"));
 			poll.setDescription(rs.getString("description"));
 			poll.setPoll_title(rs.getString("poll_title"));
 			poll.setPoll_option_type(rs.getString("poll_option_type"));
@@ -123,34 +153,38 @@ public class PollDao {
 		rs.close();
 		stmt.close();
 
+		if (poll.getPollId() == 0) {
+			throw new IOException("No entry for pollId" + pollId);
+		}
+
 		return poll;
 	}
-	
+
 	// Get the vote
-		public Vote getVote(int voteId) throws SQLException {
+	public Vote getVote(int voteId) throws SQLException {
 
-			Vote vote = new Vote();
+		Vote vote = new Vote();
 
-			Statement stmt = c.createStatement();
+		Statement stmt = c.createStatement();
 
-			String sql = "SELECT * FROM votes_info WHERE voteId=" + voteId;
-			ResultSet rs = stmt.executeQuery(sql);
+		String sql = "SELECT * FROM votes_info WHERE voteId=" + voteId;
+		ResultSet rs = stmt.executeQuery(sql);
 
-			System.out.println(sql);
+		System.out.println(sql);
 
-			while (rs.next()) {
-				vote.setPollId(rs.getInt("pId"));
-				vote.setVoteId(rs.getInt("voteId"));
-				vote.setParticipant_name(rs.getString("participant_name"));
-				vote.setChosen_option(rs.getInt("chosen_option"));
-				
-			}
-
-			rs.close();
-			stmt.close();
-			return vote;
+		while (rs.next()) {
+			vote.setPollId(rs.getInt("pId"));
+			vote.setVoteId(rs.getInt("voteId"));
+			vote.setParticipant_name(rs.getString("participant_name"));
+			vote.setChosen_option(rs.getInt("chosen_option"));
 
 		}
+
+		rs.close();
+		stmt.close();
+		return vote;
+
+	}
 
 	// Get the votes associated to a poll
 	public List<Vote> getVotesOnPoll(int pollId) throws SQLException {
@@ -204,7 +238,7 @@ public class PollDao {
 		return comments;
 
 	}
-	
+
 	public int getVoteCount(int pollId) throws SQLException {
 		String deleteCheck = "select count(*) as count from votes_info where pId=" + pollId;
 		int count = 0;
@@ -222,7 +256,8 @@ public class PollDao {
 	/* UPDATE OPERATIONS FOR THE TABLES */
 	public void updateSQL(PollQuery query) throws SQLException {
 		StringBuilder sql = new StringBuilder();
-		sql.append("UPDATE " + query.getComponent() + " SET "); // update segment
+		sql.append("UPDATE " + query.getComponent() + " SET "); // update
+																// segment
 		HashMap<String, String> match_conditions = query.getMatch_conditions();
 		HashMap<String, String> update_values = query.getUpdate_values();
 
@@ -235,10 +270,10 @@ public class PollDao {
 		sql.append(" WHERE ");
 
 		for (String key : match_conditions.keySet()) {
-			sql.append(key + "=" + match_conditions.get(key) + ", ");
+			sql.append(key + "=" + match_conditions.get(key) + " AND ");
 		}
 
-		sql.setLength(sql.length() - 2);
+		sql.setLength(sql.length() - 5);
 
 		Statement stmt = c.createStatement();
 
@@ -257,10 +292,10 @@ public class PollDao {
 		HashMap<String, String> match_conditions = query.getMatch_conditions();
 
 		for (String key : match_conditions.keySet()) {
-			sql.append(key + "LIKE '%" + match_conditions.get(key) + "%', ");
+			sql.append(key + " LIKE '%" + match_conditions.get(key) + "%' AND ");
 		}
 
-		sql.setLength(sql.length() - 2);
+		sql.setLength(sql.length() - 5);
 
 		return sql.toString();
 
@@ -294,12 +329,10 @@ public class PollDao {
 
 	}
 
-	
-
 	/* DELETE TABLE VALUES */
 	public void deletePoll(int pollId) throws SQLException {
 		int count = getVoteCount(pollId);
-		
+
 		if (count == 0) {
 			String sql = "DELETE FROM polls_info WHERE pId=" + pollId;
 			Statement stmnt = c.createStatement();
@@ -316,40 +349,40 @@ public class PollDao {
 	}
 
 	public static void main(String[] args) {
-//		PollDao p = new PollDao();
-//
-//		Poll poll = new Poll();
-//		poll.setPoll_title("title");
-//		poll.setDescription("description");
-//		poll.setPoll_option_type("text");
-//		ArrayList<String> options = new ArrayList<String>();
-//		options.add("option1");
-//		options.add("option2");
-//		poll.setOptions(options);
-//
-//		// try {
-//		// p.insertPoll(poll);
-//		//
-//		// } catch (SQLException e) {
-//		// // TODO Auto-generated catch block
-//		// e.printStackTrace();
-//		// }
-//
-//		try {
-//			Poll x = p.getPoll(2);
-//			p.closeConnection();
-//
-//			System.out.println(x.getPoll_title() + ":" + x.getDescription());
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
+		// PollDao p = new PollDao();
+		//
+		// Poll poll = new Poll();
+		// poll.setPoll_title("title");
+		// poll.setDescription("description");
+		// poll.setPoll_option_type("text");
+		// ArrayList<String> options = new ArrayList<String>();
+		// options.add("option1");
+		// options.add("option2");
+		// poll.setOptions(options);
+		//
+		// // try {
+		// // p.insertPoll(poll);
+		// //
+		// // } catch (SQLException e) {
+		// // // TODO Auto-generated catch block
+		// // e.printStackTrace();
+		// // }
+		//
+		// try {
+		// Poll x = p.getPoll(2);
+		// p.closeConnection();
+		//
+		// System.out.println(x.getPoll_title() + ":" + x.getDescription());
+		// } catch (SQLException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+
 		String test = "options1|options2";
-		
+
 		List<String> list = Arrays.asList(test.split("\\|"));
-		
-		for(String t: list){
+
+		for (String t : list) {
 			System.out.println(t);
 		}
 

@@ -111,5 +111,20 @@ public class Poll {
 
 		setOptions(Arrays.asList(optionString.split("\\|")));
 	}
+	
+	public void checkPollInput() throws NullPointerException{
+		if(this.poll_title==null){
+			throw new NullPointerException("No title provided for the Poll");
+		}
+		if(this.description==null){
+			throw new NullPointerException("No description provided for the Poll");
+		}
+		if(this.poll_option_type==null){
+			throw new NullPointerException("No type provided for the Poll");
+		}
+		if(this.options==null || this.options.size()==0){
+			throw new NullPointerException("No option provided for the Poll");
+		}
+	}
 
 }

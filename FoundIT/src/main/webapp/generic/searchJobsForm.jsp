@@ -12,33 +12,40 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active">
             <div class="col-md-12">
-                <h3>Login Credentials</h3>
+                <h3>Job Details</h3>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="control-label">User Name</label> <input
+                        <label class="control-label">Position</label> <input
                             maxlength="100" type="text" required="required"
-                            class="form-control" placeholder="Enter Name" id="seeker_username" />
+                            class="form-control" placeholder="Enter Position" id="search_position" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="control-label">Email</label> <input maxlength="100"
-                            type="email" required="required" class="form-control"
-                            placeholder="Enter Email" id="seeker_email"/>
+                        <label class="control-label">Job Description</label> <input maxlength="100"
+                            type="text" required="required" class="form-control"
+                            placeholder="Enter Description" id="search_description"/>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="control-label">Password</label> <input
-                            maxlength="100" type="password" required="required"
-                            class="form-control" placeholder="Enter password" id="seeker_password"/>
+                        <label class="control-label">Location</label> <input
+                            maxlength="100" type="text" required="required"
+                            class="form-control" placeholder="Enter Location" id="search_location"/>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="control-label">Confirm Password</label> <input
-                            maxlength="100" type="password" required="required"
-                            class="form-control" placeholder="Confirm Password" id="seeker_confirm_password"/>
+                        <label class="control-label">Salary Rate</label> <input
+                            maxlength="100" type="text" required="required"
+                            class="form-control" placeholder="Enter Salary rate" id="search_salary"/>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Company</label> <input
+                            maxlength="100" type="text" required="required"
+                            class="form-control" placeholder="Enter company" id="search_company"/>
                     </div>
                 </div>
                 <button id="search-jobs"
