@@ -10,9 +10,9 @@
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-2">
 					<div class="modal-body">
-						<h2>Job Seeker</h2>
+						<h2>Search Jobs</h2>
 						<hr class="star-primary">
-						<jsp:include page="jobseekerSignUp.jsp" />
+						<jsp:include page="../searchJobsForm.jsp" />
 					</div>
 				</div>
 			</div>
@@ -31,9 +31,9 @@
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-2">
 					<div class="modal-body">
-						<h2>Manager</h2>
+						<h2>Applications</h2>
 						<hr class="star-primary">
-						<jsp:include page="managerSignUp.jsp" />
+						<jsp:include page="../applicationStatus.jsp" />
 					</div>
 				</div>
 			</div>
@@ -52,9 +52,9 @@
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-2">
 					<div class="modal-body">
-						<h2>Recruiter</h2>
+						<h2>Profile</h2>
 						<hr class="star-primary">
-						<jsp:include page="recruiterSignUp.jsp" />
+						<jsp:include page="../profileEdit.jsp" />
 					</div>
 				</div>
 			</div>

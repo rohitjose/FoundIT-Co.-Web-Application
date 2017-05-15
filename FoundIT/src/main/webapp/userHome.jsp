@@ -1,3 +1,4 @@
+<%@ page import="au.edu.unsw.soacourse.dto.User"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,12 +15,42 @@
 	</div>
 
 	<!-- Navigation -->
-	<jsp:include page="seekerNav.jsp" />
-	<section id="seeker">
+	<%
+		User user = new User();
+		String role = new String();
+		if (session.getAttribute("user") != null) {
+			user = (User) session.getAttribute("user");
+			role = user.getRole();
+		} else {
+			role = "app-candidate";
+		}
+	%>
+
+	<%
+		if (role.equals("app-candidate")) {
+	%>
+	<jsp:include page="candidate/seekerNav.jsp" />
+	<%
+		}
+	%>
+
+	<!-- Navigation End -->
+
+	<!-- Content pane begin -->
+	<section id="content_pane">
 		<div class="container">
-			<div class="row"></div>
+			<div class="row">
+				<%
+					if (role.equals("app-candidate")) {
+				%>
+				<jsp:include page="candidate/seekerContentPane.jsp" />
+				<%
+					}
+				%>
+			</div>
 		</div>
 	</section>
+	<!-- Content pane end -->
 
 
 	<!-- Footer -->
@@ -35,7 +66,14 @@
 	</div>
 
 	<!-- Portfolio Modals -->
-	<jsp:include page="seekerModals.jsp" />
+	<%
+		if (role.equals("app-candidate")) {
+	%>
+	<jsp:include page="candidate/seekerModals.jsp" />
+	<%
+		}
+	%>
+
 
 	<!-- Script Imports -->
 	<jsp:include page="scriptImportFooter.jsp" />
