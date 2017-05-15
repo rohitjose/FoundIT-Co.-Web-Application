@@ -33,16 +33,28 @@ public class CandidateRequestHandler {
 		foundITDao dao = new foundITDao();
 
 		HashMap<String, String> queryParams = new HashMap<String, String>();
-		//Login Details
+		// Login Details
 		queryParams.put("username", username);
 		queryParams.put("email", email);
 		queryParams.put("password", password);
-		queryParams.put("role", "app_candidate");
-		//Profile Details
-		
-		
+		queryParams.put("role", "app-candidate");
+		// Profile Details
+		queryParams.put("first_name", first_name);
+		queryParams.put("last_name", last_name);
+		queryParams.put("phone", phone);
+		queryParams.put("site", site);
+		queryParams.put("street_address", streetAddress);
+		queryParams.put("city", city);
+		queryParams.put("zip", zip);
+		queryParams.put("state", state);
+		queryParams.put("headline", headline);
+		queryParams.put("position", position);
+		queryParams.put("summary", summary);
+		queryParams.put("experience", experience);
+		queryParams.put("education", education);
+		queryParams.put("skills", skills);
 
-		dao.signUpUser(queryParams);
+		int user_id = dao.signUpUser(queryParams);
 	}
 
 }

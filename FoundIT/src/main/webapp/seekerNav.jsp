@@ -21,6 +21,9 @@
                         <a href="#application-status" data-toggle="modal">Applications</a>
                     </li>
                     <li class="page-scroll">
+                        <a href="#edit-profile" data-toggle="modal">Edit Profile</a>
+                    </li>
+                    <li class="page-scroll">
                         <a href="#profile" data-toggle="modal">{{UserName}}</a>
                     </li>
                 </ul>

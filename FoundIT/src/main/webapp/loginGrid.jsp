@@ -13,7 +13,7 @@
                     <form name="sentMessage" id="contactForm" novalidate>
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
-                                <label for="username">Username/Email</label>
+                                <label for="username">Username</label>
                                 <input type="text" class="form-control" placeholder="Username/Email" id="username" required data-validation-required-message="Please enter your username.">
                                 <p class="help-block text-danger"></p>
                             </div>
@@ -29,7 +29,7 @@
                         <div id="success"></div>
                         <div class="row">
                             <div class="form-group col-xs-12">
-                                <button type="submit" class="btn btn-success btn-lg">Login</button>
+                                <button type="submit" class="btn btn-success btn-lg" onclick="loginUser()">Login</button>
                             </div>
                         </div>
                     </form>

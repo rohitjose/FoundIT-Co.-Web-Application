@@ -118,6 +118,7 @@ $(function() {
 			});
 });
 
+// Candidate Signup fucntion
 function seekerSubmit() {
 	var seeker_skills = $("#seeker_skills").val();
 	var seeker_education = $("#seeker_education").val();
@@ -172,6 +173,7 @@ function seekerSubmit() {
 
 }
 
+// Recruiter signup function
 function recruiterSubmit() {
 
 	var recruiter_username = $("#recruiter_username").val();
@@ -211,7 +213,9 @@ function recruiterSubmit() {
 
 }
 
+// Manager Signup function
 function managerSubmit() {
+
 	var manager_username = $("#manager_username").val();
 	var manager_email = $("#manager_email").val();
 	var manager_password = $("#manager_password").val();
@@ -279,3 +283,34 @@ function managerSubmit() {
 	);
 
 }
+
+// User login
+function loginUser() {
+	var username = $("#username").val();
+	var password = $("#password").val();
+
+	$.ajax({
+		type : 'POST',
+		url : 'signup',
+		data : {
+			'action' : 'user_login',
+			'username' : username,
+			'password' : password,
+		},
+		success : function(data) {
+			console.log('Done');
+
+		}
+	}
+
+	);
+
+}
+
+
+
+
+
+
+
+
