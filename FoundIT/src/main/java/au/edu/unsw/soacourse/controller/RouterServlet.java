@@ -19,6 +19,11 @@ import au.edu.unsw.soacourse.reviewer.ReviewerRequestHandler;
 
 public class RouterServlet extends HttpServlet {
 
+	
+	protected String getRelativePath(){
+		return getServletContext().getRealPath("/WEB-INF/classes/");
+	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -38,10 +43,17 @@ public class RouterServlet extends HttpServlet {
 			loginUser(request, response);
 		} else if (action.equals("post_job")) {
 			// Post Job
-		}else if (action.equals("post_poll")) {
+			
+		} else if (action.equals("post_poll")) {
 			// Post Poll
 			ManagerRequestHandler manager = new ManagerRequestHandler();
 			manager.createPoll(request, response);
+
+			response.setContentType("text/html;charset=UTF-8");
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/userHome.jsp");
+			rd.forward(request, response);
+
+			System.out.println(getServletContext());
 		}
 
 	}

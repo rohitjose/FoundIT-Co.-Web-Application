@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -129,6 +130,7 @@ public class ManagerRequestHandler {
 		locationPoll.setOptions(location_options);
 		locationPoll = poller.createPoll(locationPoll, "app-manager");
 		System.out.println(locationPoll.getPollId());
+		
 
 	}
 }
