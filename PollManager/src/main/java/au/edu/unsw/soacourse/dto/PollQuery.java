@@ -27,6 +27,8 @@ public class PollQuery {
 			this.component = "votes_info";
 		} else if (component.equals("comment")) {
 			this.component = "comments_info";
+		} else {
+			this.component = component;
 		}
 
 	}
@@ -84,12 +86,11 @@ public class PollQuery {
 	}
 
 	/**
-	 * @param voteId the voteId to set
+	 * @param voteId
+	 *            the voteId to set
 	 */
 	public void setVoteId(int voteId) {
 		this.voteId = voteId;
 	}
-	
-	
 
 }

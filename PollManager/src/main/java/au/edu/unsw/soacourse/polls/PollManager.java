@@ -31,6 +31,15 @@ public class PollManager {
 		}
 	}
 
+	public void handleConnectionClose(PollDao dao) {
+		try {
+			dao.closeConnection();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+
 	/* SERVICES FOR THE POLLS */
 	@GET
 	@Path("/polls/{input}")
@@ -69,14 +78,17 @@ public class PollManager {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1003");
 			error.setErrorDescription("Server Error - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		} catch (IOException e) {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1004");
 			error.setErrorDescription("Resource not found - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
 		}
 
+		handleConnectionClose(dao);
 		return Response.ok().entity(poll).build();
 	}
 
@@ -113,18 +125,19 @@ public class PollManager {
 			error.setErrorDescription("Invalid Request - " + e1.getMessage());
 			return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
 		}
-
+		PollDao dao = new PollDao();
 		try {
-			PollDao dao = new PollDao();
+
 			dao.insertPoll(poll);
 			poll.setPollId(dao.getLastPollId());
 		} catch (SQLException e) {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1003");
 			error.setErrorDescription("Server Error - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		}
-
+		handleConnectionClose(dao);
 		return Response.status(Response.Status.CREATED).entity(poll).build();
 	}
 
@@ -134,6 +147,8 @@ public class PollManager {
 	@Path("/polls")
 	public Response updatePoll(PollQuery query, @HeaderParam("SecurityKey") String securityKey,
 			@HeaderParam("ShortKey") String shortKey) {
+
+		System.out.println("Update called");
 
 		// Authenticate the client
 		try {
@@ -170,11 +185,16 @@ public class PollManager {
 				throw new IOException();
 			}
 		} catch (SQLException e1) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e1.getMessage()).build();
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1003");
+			error.setErrorDescription("Server Error - " + e1.getMessage());
+			handleConnectionClose(dao);
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		} catch (IOException e2) {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1005");
 			error.setErrorDescription("Request cannot be processed - Poll has already been voted on");
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.NOT_MODIFIED).entity(error).build();
 		}
 
@@ -185,14 +205,17 @@ public class PollManager {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1003");
 			error.setErrorDescription("Server Error - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		} catch (IOException e) {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1004");
 			error.setErrorDescription("Resource not found - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
 		}
 
+		handleConnectionClose(dao);
 		return Response.ok().entity(poll).build();
 	}
 
@@ -229,9 +252,11 @@ public class PollManager {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1003");
 			error.setErrorDescription("Server Error - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		}
 
+		handleConnectionClose(dao);
 		return Response.ok().entity(polls).build();
 	}
 
@@ -280,14 +305,17 @@ public class PollManager {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1003");
 			error.setErrorDescription("Server Error - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		} catch (IOException e) {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1004");
 			error.setErrorDescription("Resource not found - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
 		}
 
+		handleConnectionClose(dao);
 		return Response.ok().entity(poll).build();
 	}
 
@@ -328,14 +356,16 @@ public class PollManager {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1003");
 			error.setErrorDescription("Server Error - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		} catch (IOException e) {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1004");
 			error.setErrorDescription("Resource not found - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
 		}
-
+		handleConnectionClose(dao);
 		return Response.ok().entity(vote).build();
 	}
 
@@ -375,9 +405,10 @@ public class PollManager {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1003");
 			error.setErrorDescription("Server Error - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		}
-
+		handleConnectionClose(dao);
 		return Response.status(Response.Status.CREATED).entity(vote).build();
 	}
 
@@ -416,11 +447,13 @@ public class PollManager {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1003");
 			error.setErrorDescription("Server Error - " + e1.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		} catch (IOException e1) {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1004");
 			error.setErrorDescription("Resource not found - " + e1.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
 		}
 
@@ -431,11 +464,13 @@ public class PollManager {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1003");
 			error.setErrorDescription("Server Error - " + e1.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		} catch (IOException e1) {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1004");
 			error.setErrorDescription("Resource not found - " + e1.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
 		}
 
@@ -443,6 +478,7 @@ public class PollManager {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1001");
 			error.setErrorDescription("Invalid voteId - The poll is closed");
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
 		}
 
@@ -452,9 +488,10 @@ public class PollManager {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1003");
 			error.setErrorDescription("Server Error - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		}
-
+		handleConnectionClose(dao);
 		return Response.ok().entity(vote).build();
 	}
 
@@ -503,14 +540,16 @@ public class PollManager {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1003");
 			error.setErrorDescription("Server Error - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		} catch (IOException e) {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1004");
 			error.setErrorDescription("Resource not found - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
 		}
-
+		handleConnectionClose(dao);
 		return Response.ok().entity(votes).build();
 	}
 
@@ -541,14 +580,16 @@ public class PollManager {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1003");
 			error.setErrorDescription("Server Error - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		} catch (IOException e) {
 			ErrorResponse error = new ErrorResponse();
 			error.setErrorCode("1004");
 			error.setErrorDescription("Resource not found - " + e.getMessage());
+			handleConnectionClose(dao);
 			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
 		}
-
+		handleConnectionClose(dao);
 		return Response.ok().entity(comments).build();
 	}
 
@@ -584,9 +625,13 @@ public class PollManager {
 			dao.insertComment(comment);
 			comment.setCommentId(dao.getLastCommentId());
 		} catch (SQLException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1003");
+			error.setErrorDescription("Server Error - " + e.getMessage());
+			handleConnectionClose(dao);
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		}
-
+		handleConnectionClose(dao);
 		return Response.status(Response.Status.CREATED).entity(comment).build();
 	}
 
