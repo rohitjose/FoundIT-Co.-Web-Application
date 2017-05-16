@@ -335,3 +335,15 @@ function searchJobs() {
 
 	);
 }
+
+
+
+function createPoll(){
+	document.getElementById("postPoll").submit();
+}
+
+
+
+
+
+

@@ -18,7 +18,7 @@ public class foundITDao {
 	public foundITDao() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:" + this.getClass().getResource("/").getPath() + "foundIT");
+			c = DriverManager.getConnection("jdbc:sqlite:" + this.getClass().getResource("/").getPath() +"foundIT.db");
 			System.out.println("jdbc:sqlite:" + this.getClass().getResource("/").getPath() + "foundIT");
 			System.out.println(getClass().getResource("/").getPath());
 			c.setAutoCommit(false);

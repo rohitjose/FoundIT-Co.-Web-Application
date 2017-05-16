@@ -1,3 +1,17 @@
+<%@ page import="au.edu.unsw.soacourse.dto.User"%>
+<%
+	User user = new User();
+	String role = new String();
+	String username = new String();
+	if (session.getAttribute("user") != null) {
+		user = (User) session.getAttribute("user");
+		role = user.getRole();
+		username = user.getUsername();
+	} else {
+		role = "app-candidate";
+		username = "Guest";
+	}
+%>
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -24,7 +38,7 @@
                         <a href="#edit-profile" data-toggle="modal">Edit Profile</a>
                     </li>
                     <li class="page-scroll">
-                        <a href="#profile" data-toggle="modal">{{UserName}}</a>
+                        <a href="#profile" data-toggle="modal"><%=username %></a>
                     </li>
                 </ul>
             </div>

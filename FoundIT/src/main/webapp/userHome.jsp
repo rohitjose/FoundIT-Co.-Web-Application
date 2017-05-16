@@ -31,6 +31,12 @@
 	%>
 	<jsp:include page="candidate/seekerNav.jsp" />
 	<%
+		} else
+
+		if (role.equals("app-manager")) {
+	%>
+	<jsp:include page="manager/manager_nav.jsp" />
+	<%
 		}
 	%>
 
@@ -44,6 +50,10 @@
 					if (role.equals("app-candidate")) {
 				%>
 				<jsp:include page="candidate/seekerContentPane.jsp" />
+				<%
+					} else if (role.equals("app-manager")) {
+				%>
+				<jsp:include page="manager/managerContentPane.jsp" />
 				<%
 					}
 				%>
@@ -71,9 +81,12 @@
 	%>
 	<jsp:include page="candidate/seekerModals.jsp" />
 	<%
+		} else if (role.equals("app-manager")) {
+	%>
+	<jsp:include page="manager/managerModals.jsp" />
+	<%
 		}
 	%>
-
 
 	<!-- Script Imports -->
 	<jsp:include page="common/scriptImportFooter.jsp" />

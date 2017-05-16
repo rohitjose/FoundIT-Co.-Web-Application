@@ -1,4 +1,4 @@
-package au.edu.unsw.soacourse.manager;
+package au.edu.unsw.soacourse.candidate;
 
 import java.sql.SQLException;
 import java.util.HashMap;

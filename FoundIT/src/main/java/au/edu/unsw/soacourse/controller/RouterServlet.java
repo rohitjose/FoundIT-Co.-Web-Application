@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import au.edu.unsw.soacourse.candidate.CandidateRequestHandler;
 import au.edu.unsw.soacourse.dao.foundITDao;
 import au.edu.unsw.soacourse.dto.User;
-import au.edu.unsw.soacourse.jobseeker.ManagerRequestHandler;
-import au.edu.unsw.soacourse.manager.CandidateRequestHandler;
+import au.edu.unsw.soacourse.manager.ManagerRequestHandler;
 import au.edu.unsw.soacourse.reviewer.ReviewerRequestHandler;
 
 public class RouterServlet extends HttpServlet {
@@ -36,6 +36,11 @@ public class RouterServlet extends HttpServlet {
 			reviewer.signUp(request, response);
 		} else if (action.equals("user_login")) {
 			loginUser(request, response);
+		} else if (action.equals("post_job")) {
+			// Post Job
+		}else if (action.equals("post_poll")) {
+			// Post Poll
+			System.out.println("poll");
 		}
 
 	}

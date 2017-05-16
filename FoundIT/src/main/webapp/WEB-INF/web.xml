@@ -18,6 +18,6 @@
 		<url-pattern>/signup</url-pattern>
 		<url-pattern>/search</url-pattern>
 		<url-pattern>/login</url-pattern>
-		<url-pattern>/previous</url-pattern>
+		<url-pattern>/job</url-pattern>
 	</servlet-mapping>
 </web-app>
