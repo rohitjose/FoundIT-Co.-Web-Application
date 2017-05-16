@@ -225,5 +225,9 @@ public class foundITDao {
 	public void close() throws SQLException {
 		c.close();
 	}
+	
+	public static void main(String[] args) {
+		foundITDao dao = new foundITDao();
+	}
 
 }
