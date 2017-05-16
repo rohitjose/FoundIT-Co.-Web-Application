@@ -9,7 +9,7 @@
 				<h2>Search Results</h2>
 				<%
 					} else {
-				%><h2>Welcome</h2>
+				%><h2>Candidate Dashboard</h2>
 				<%
 					}
 				%>

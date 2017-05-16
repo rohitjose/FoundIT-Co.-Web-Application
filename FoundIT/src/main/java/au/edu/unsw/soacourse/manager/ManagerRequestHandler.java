@@ -157,6 +157,8 @@ public class ManagerRequestHandler {
 		String postJob_company = request.getParameter("postJob_company");
 
 		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		int manager_id = user.getUser_id();
 
 		DTOJobPostings job = new DTOJobPostings("0", postJob_company, postJob_salary, postJob_position,
 				postJob_location, postJob_description, "open", "found-it", "app-manager");
@@ -164,13 +166,18 @@ public class ManagerRequestHandler {
 		// Create posting REST call
 		JobsServices jobb = new JobsServices();
 		int job_id = jobb.createJob(job);
-		User user = (User) session.getAttribute("user");
-		int manager_id = user.getUser_id();
+		
+		
 
-		EntityMappingDao dao = new EntityMappingDao();
-		dao.insertMapping(job_id, manager_id, "", "", "");
+		try {
+			EntityMappingDao dao = new EntityMappingDao();
+			dao.insertMapping(job_id, manager_id, "", "", "");
 
-		dao.closeConnection();
+			dao.closeConnection();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -207,6 +214,13 @@ public class ManagerRequestHandler {
 			if (job != null) {
 				manager_jobs.add(job);
 			}
+		}
+		
+		try {
+			dao.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return manager_jobs;

@@ -30,9 +30,6 @@
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-right">
 				<li class="hidden"><a href="#page-top"></a></li>
-				<li class="page-scroll"><a href="#job-list" data-toggle="modal">Jobs</a></li>
-				<li class="page-scroll"><a href="#polls-list"
-					data-toggle="modal">Interviews</a></li>
 				<li class="page-scroll"><a href="#post-jobs"
 					data-toggle="modal">Post Jobs</a></li>
 				<li class="page-scroll"><a href="#schedule-interview"

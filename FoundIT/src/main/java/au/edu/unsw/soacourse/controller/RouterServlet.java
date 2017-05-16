@@ -154,6 +154,10 @@ public class RouterServlet extends HttpServlet {
 
 		if (user.getUsername() != null) {
 			session.setAttribute("user", user);
+			if(user.getRole().equals("app-manager")){
+				ManagerRequestHandler manager = new ManagerRequestHandler();
+				manager.mapManagerJobs(request, response);
+			}
 
 			response.setContentType("text/html;charset=UTF-8");
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/userHome.jsp");
