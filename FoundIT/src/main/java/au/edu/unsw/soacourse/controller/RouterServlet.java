@@ -19,8 +19,7 @@ import au.edu.unsw.soacourse.reviewer.ReviewerRequestHandler;
 
 public class RouterServlet extends HttpServlet {
 
-	
-	protected String getRelativePath(){
+	protected String getRelativePath() {
 		return getServletContext().getRealPath("/WEB-INF/classes/");
 	}
 
@@ -43,7 +42,15 @@ public class RouterServlet extends HttpServlet {
 			loginUser(request, response);
 		} else if (action.equals("post_job")) {
 			// Post Job
-			
+			ManagerRequestHandler manager = new ManagerRequestHandler();
+			manager.createJobPost(request, response);
+
+			response.setContentType("text/html;charset=UTF-8");
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/userHome.jsp");
+			rd.forward(request, response);
+
+			System.out.println(getServletContext());
+
 		} else if (action.equals("post_poll")) {
 			// Post Poll
 			ManagerRequestHandler manager = new ManagerRequestHandler();

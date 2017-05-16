@@ -18,7 +18,7 @@ import au.edu.unsw.soacourse.dto.DTOApplications;
 import au.edu.unsw.soacourse.dto.DTOJobPostings;
 import au.edu.unsw.soacourse.dto.DTOReviews;
 
-public class JobsDAO {
+public class JobsServices {
 
 	static final String REST_URI = "http://localhost:8080/JobsServiceRest";
 	static final String POST = "post";

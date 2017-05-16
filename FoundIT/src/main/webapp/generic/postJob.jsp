@@ -18,7 +18,7 @@
 							<label class="control-label">Position</label> <input
 								maxlength="100" type="text" required="required"
 								class="form-control" placeholder="Enter Position"
-								id="postJob_position" />
+								name="postJob_position" />
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -26,7 +26,7 @@
 							<label class="control-label">Job Description</label> <input
 								maxlength="100" type="text" required="required"
 								class="form-control" placeholder="Enter Description"
-								id="postJob_description" />
+								name="postJob_description" />
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -34,7 +34,7 @@
 							<label class="control-label">Location</label> <input
 								maxlength="100" type="text" required="required"
 								class="form-control" placeholder="Enter Location"
-								id="postJob_location" />
+								name="postJob_location" />
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -42,7 +42,7 @@
 							<label class="control-label">Salary Rate</label> <input
 								maxlength="100" type="text" required="required"
 								class="form-control" placeholder="Enter Salary rate"
-								id="postJob_salary" />
+								name="postJob_salary" />
 						</div>
 					</div>
 					<div class="col-md-12">
@@ -50,10 +50,10 @@
 							<label class="control-label">Company</label> <input
 								maxlength="100" type="text" required="required"
 								class="form-control" placeholder="Enter company"
-								id="postJob_company" />
+								name="postJob_company" />
 						</div>
 					</div>
-					<button id="search-jobs"
+					<button id="post-job"
 						class="btn btn-lg btn-primary nextBtn pull-right" type="submit">Post</button>
 				</div>
 			</form>

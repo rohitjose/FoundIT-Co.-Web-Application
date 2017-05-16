@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import au.edu.unsw.soacourse.dao.EntityMappingDao;
 import au.edu.unsw.soacourse.dao.foundITDao;
+import au.edu.unsw.soacourse.dto.DTOJobPostings;
 import au.edu.unsw.soacourse.dto.Poll;
+import au.edu.unsw.soacourse.dto.User;
+import au.edu.unsw.soacourse.restResources.JobsServices;
 import au.edu.unsw.soacourse.restResources.PollServices;
 
 public class ManagerRequestHandler {
@@ -130,7 +134,30 @@ public class ManagerRequestHandler {
 		locationPoll.setOptions(location_options);
 		locationPoll = poller.createPoll(locationPoll, "app-manager");
 		System.out.println(locationPoll.getPollId());
-		
 
 	}
+
+	public void createJobPost(HttpServletRequest request, HttpServletResponse response){
+		String postJob_position = request.getParameter("postJob_position");
+		String postJob_description = request.getParameter("postJob_description");
+		String postJob_location = request.getParameter("postJob_location");
+		String postJob_salary = request.getParameter("postJob_salary");
+		String postJob_company = request.getParameter("postJob_company");
+		
+		HttpSession session = request.getSession();
+
+		DTOJobPostings job = new DTOJobPostings("0",postJob_company, postJob_salary, postJob_position, postJob_location, postJob_description, "open", "found-it");
+		
+		// Create posting REST call
+		JobsServices jobb = new JobsServices();
+		int job_id = jobb.createJob(job);
+		User user = (User) session.getAttribute("user");
+		int manager_id = user.getUser_id();
+		
+		EntityMappingDao dao = new EntityMappingDao();
+		dao.insertMapping(job_id, manager_id, "", "", "");
+		
+		
+	}
+
 }
