@@ -12,6 +12,7 @@ public class DTOJobPostings {
 	private static final String JOB_DESCRIPTION = "job_description";
 	private static final String STATUS = "status";
 	private static final String SECURITY_KEY = "security_key";
+	private static final String SHORT_KEY = "short_key";
 
 	
 	private String jid;
@@ -22,6 +23,7 @@ public class DTOJobPostings {
 	private String jobDescription;
 	private String status;
 	private String securityKey;
+	private String shortKey;
 
 	
 	//Default constructor
@@ -29,7 +31,7 @@ public class DTOJobPostings {
 		
 	}
 	
-	public DTOJobPostings(String jid, String companyName, String salaryRate, String jobPosition, String location, String jobDescription, String status, String securityKey) {
+	public DTOJobPostings(String jid, String companyName, String salaryRate, String jobPosition, String location, String jobDescription, String status, String securityKey, String shortKey) {
 	
 		this.jid = jid;
 		this.companyName = companyName;
@@ -39,10 +41,15 @@ public class DTOJobPostings {
 		this.jobDescription = jobDescription;
 		this.status = status;
 		this.securityKey = securityKey;
+		this.shortKey = shortKey;
+
 	}
 	
 
 	/* Getters */
+	public String getShortKey() {
+		return shortKey;
+	}
 	public String getSecurityKey() {
 		return securityKey;
 	}
@@ -102,6 +109,9 @@ public class DTOJobPostings {
 		if (this.getSecurityKey() != null && !this.getSecurityKey().isEmpty()) {
 			params.put(SECURITY_KEY, this.getSecurityKey());
 		}
+		if (this.getShortKey() != null && !this.getShortKey().isEmpty()) {
+			params.put(SHORT_KEY, this.getShortKey());
+		}
 		
 		if (params.size() > 0) {
 			return params;
@@ -136,7 +146,9 @@ public class DTOJobPostings {
 		if (hm.get(SECURITY_KEY) != null) {
 			this.securityKey = hm.get(SECURITY_KEY).toString();
 		}
-		
+		if (hm.get(SHORT_KEY) != null) {
+			this.shortKey = hm.get(SHORT_KEY).toString();
+		}
 	}
 }
 

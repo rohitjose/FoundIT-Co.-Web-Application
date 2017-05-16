@@ -42,7 +42,7 @@ public class ReviewerRequestHandler {
 		}
 		
 		try {
-			dao.close();
+			dao.closeConnection();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

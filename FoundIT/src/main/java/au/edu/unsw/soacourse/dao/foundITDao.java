@@ -225,12 +225,12 @@ public class foundITDao {
 		executeSQL(sql);
 	}
 
-	public void close() throws SQLException {
+	public void closeConnection() throws SQLException {
 		c.close();
 	}
 	
 	public static void main(String[] args) {
-		foundITDao dao = new foundITDao();
+		//foundITDao dao = new foundITDao();
 	}
 
 }

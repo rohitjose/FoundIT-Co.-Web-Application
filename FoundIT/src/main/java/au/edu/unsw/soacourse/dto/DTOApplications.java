@@ -13,6 +13,7 @@ public class DTOApplications {
 	private static final String APP_STATUS = "status";
 	private static final String CANDIDATE_ID = "cid";
 	private static final String SECURITY_KEY = "security_key";
+	private static final String SHORT_KEY = "short_key";
 
 	
 	private String appId;
@@ -24,9 +25,10 @@ public class DTOApplications {
 	private String resume;
 	private String status;
 	private String securityKey;
+	private String shortKey;
 
 	
-	public DTOApplications(String appId, String jid, String cid, String candidateName, String email, String coverLetter, String resume, String status, String securityKey) {
+	public DTOApplications(String appId, String jid, String cid, String candidateName, String email, String coverLetter, String resume, String status, String securityKey, String shortKey) {
 		this.appId = appId;
 		this.jid = jid;
 		this.cid = cid;
@@ -36,9 +38,14 @@ public class DTOApplications {
 		this.resume = resume;
 		this.status = status;
 		this.securityKey = securityKey;
+		this.shortKey = shortKey;
 	}
 
 	/*	Getters	*/
+	public String getShortKey() {
+		return shortKey;
+	}
+	
 	public String getSecurityKey() {
 		return securityKey;
 	}
@@ -98,7 +105,9 @@ public class DTOApplications {
 		if (this.getSecurityKey() != null && !this.getSecurityKey().isEmpty()) {
 			params.put(SECURITY_KEY, this.getSecurityKey());
 		}
-		
+		if (this.getShortKey() != null && !this.getShortKey().isEmpty()) {
+			params.put(SHORT_KEY, this.getShortKey());
+		}
 		if (params.size() > 0) {
 			return params;
 		}
@@ -134,6 +143,9 @@ public class DTOApplications {
 		}
 		if (hm.get(CANDIDATE_ID) != null) {
 			this.cid = hm.get(CANDIDATE_ID).toString();
+		}
+		if (hm.get(SHORT_KEY) != null) {
+			this.shortKey = hm.get(SHORT_KEY).toString();
 		}
 		
 	}

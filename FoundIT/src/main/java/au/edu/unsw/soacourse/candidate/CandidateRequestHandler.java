@@ -58,7 +58,7 @@ public class CandidateRequestHandler {
 		int user_id = dao.signUpUser(queryParams);
 		
 		try {
-			dao.close();
+			dao.closeConnection();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

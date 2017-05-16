@@ -84,7 +84,7 @@ public class ManagerRequestHandler {
 		}
 
 		try {
-			dao.close();
+			dao.closeConnection();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -137,27 +137,29 @@ public class ManagerRequestHandler {
 
 	}
 
-	public void createJobPost(HttpServletRequest request, HttpServletResponse response){
+	public void createJobPost(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		String postJob_position = request.getParameter("postJob_position");
 		String postJob_description = request.getParameter("postJob_description");
 		String postJob_location = request.getParameter("postJob_location");
 		String postJob_salary = request.getParameter("postJob_salary");
 		String postJob_company = request.getParameter("postJob_company");
-		
+
 		HttpSession session = request.getSession();
 
-		DTOJobPostings job = new DTOJobPostings("0",postJob_company, postJob_salary, postJob_position, postJob_location, postJob_description, "open", "found-it");
-		
+		DTOJobPostings job = new DTOJobPostings("0", postJob_company, postJob_salary, postJob_position,
+				postJob_location, postJob_description, "open", "found-it", "app-manager");
+
 		// Create posting REST call
 		JobsServices jobb = new JobsServices();
 		int job_id = jobb.createJob(job);
 		User user = (User) session.getAttribute("user");
 		int manager_id = user.getUser_id();
-		
+
 		EntityMappingDao dao = new EntityMappingDao();
 		dao.insertMapping(job_id, manager_id, "", "", "");
 		
-		
+		dao.closeConnection();
+
 	}
 
 }

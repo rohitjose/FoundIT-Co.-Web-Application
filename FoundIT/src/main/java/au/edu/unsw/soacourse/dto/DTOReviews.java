@@ -8,21 +8,21 @@ public class DTOReviews {
 	private static final String APP_ID = "app_id";
 	private static final String COMMENTS = "comments";
 	private static final String DECISION = "decision";
-	//private static final String SECURITY_KEY = "security_key";
+	private static final String SHORT_KEY = "short_key";
 
 	private String rid;
 	private String appid;
 	private String comments;
 	private String decision;
-	//private String securityKey;
+	private String shortKey;
 	
-	public DTOReviews(String rid, String appid, String comments, String decision) {
+	public DTOReviews(String rid, String appid, String comments, String decision, String shortKey) {
 		
 		this.rid = rid;
 		this.appid = appid;
 		this.comments = comments;
 		this.decision = decision;
-		//this.securityKey = securityKey;
+		this.shortKey = shortKey;
 	}
 	
 	/*	Getters	*/
@@ -39,9 +39,9 @@ public class DTOReviews {
 		return decision;
 	}
 
-	/*public String getSecurityKey() {
-		return securityKey;
-	}*/
+	public String getShortKey() {
+		return shortKey;
+	}
 	
 	
 	public HashMap<String, Object> hashMap() {
@@ -60,9 +60,9 @@ public class DTOReviews {
 		if (this.getDecision() != null && !this.getDecision().isEmpty()) {
 			params.put(DECISION, this.getDecision());
 		}
-		/*if (this.getSecurityKey() != null && !this.getSecurityKey().isEmpty()) {
-			params.put(SECURITY_KEY, this.getSecurityKey());
-		}*/
+		if (this.getShortKey() != null && !this.getShortKey().isEmpty()) {
+			params.put(SHORT_KEY, this.getShortKey());
+		}
 		
 		
 		if (params.size() > 0) {
@@ -85,6 +85,9 @@ public class DTOReviews {
 		}
 		if (hm.get(DECISION) != null) {
 			this.decision = hm.get(DECISION).toString();
+		}
+		if (hm.get(SHORT_KEY) != null) {
+			this.shortKey = hm.get(SHORT_KEY).toString();
 		}
 	}
 }

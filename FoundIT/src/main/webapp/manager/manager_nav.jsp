@@ -31,11 +31,14 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="hidden"><a href="#page-top"></a></li>
 				<li class="page-scroll"><a href="#job-list" data-toggle="modal">Jobs</a></li>
-				<li class="page-scroll"><a href="#polls-list" data-toggle="modal">Interviews</a></li>
+				<li class="page-scroll"><a href="#polls-list"
+					data-toggle="modal">Interviews</a></li>
 				<li class="page-scroll"><a href="#post-jobs"
 					data-toggle="modal">Post Jobs</a></li>
 				<li class="page-scroll"><a href="#schedule-interview"
 					data-toggle="modal">Schedule Interview</a></li>
+				<li class="page-scroll"><a href="#assign-team"
+					data-toggle="modal">Assign Team</a></li>
 				<li class="page-scroll"><a href="#profile" data-toggle="modal"><%=username%></a>
 				</li>
 			</ul>

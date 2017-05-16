@@ -78,4 +78,8 @@ public class EntityMappingDao {
 		}
 
 	}
+	
+	public void closeConnection() throws SQLException {
+		c.close();
+	}
 }

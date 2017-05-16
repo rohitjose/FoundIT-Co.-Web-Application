@@ -39,11 +39,21 @@ public class RouterServlet extends HttpServlet {
 			ReviewerRequestHandler reviewer = new ReviewerRequestHandler();
 			reviewer.signUp(request, response);
 		} else if (action.equals("user_login")) {
-			loginUser(request, response);
+			try {
+				loginUser(request, response);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (action.equals("post_job")) {
 			// Post Job
 			ManagerRequestHandler manager = new ManagerRequestHandler();
-			manager.createJobPost(request, response);
+			try {
+				manager.createJobPost(request, response);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			response.setContentType("text/html;charset=UTF-8");
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/userHome.jsp");
@@ -61,6 +71,15 @@ public class RouterServlet extends HttpServlet {
 			rd.forward(request, response);
 
 			System.out.println(getServletContext());
+		} else if (action.equals("user_logout")) {
+			HttpSession session = request.getSession();
+			if (session.getAttribute("user") != null) {
+				session.setAttribute("user", null);
+			}
+
+			response.setContentType("text/html;charset=UTF-8");
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+			rd.forward(request, response);
 		}
 
 	}
@@ -77,7 +96,7 @@ public class RouterServlet extends HttpServlet {
 	}
 
 	protected void loginUser(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, SQLException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		// String landing_page = new String();
@@ -100,17 +119,11 @@ public class RouterServlet extends HttpServlet {
 				e1.printStackTrace();
 			}
 		}
+		
+		dao.closeConnection();
 
 		if (user.getUsername() != null) {
 			session.setAttribute("user", user);
-
-			// if (user.getRole().equals("app-candidate")) {
-			// landing_page = "/seekerHome.jsp";
-			// } else if (user.getRole().equals("app-manager")) {
-			// landing_page = "/managerHome.jsp";
-			// } else if (user.getRole().equals("app-reviewer")) {
-			// landing_page = "/reviewerHome.jsp";
-			// }
 
 			response.setContentType("text/html;charset=UTF-8");
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/userHome.jsp");
