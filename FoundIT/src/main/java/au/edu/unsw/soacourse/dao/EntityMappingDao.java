@@ -176,4 +176,33 @@ public class EntityMappingDao {
 
 		return jobIds;
 	}
+
+	public void applyJob(String appId, String jobId, String userId) {
+		String sql = "SELECT application_list FROM entity_Mapping WHERE jobId=" + jobId;
+		String update_value = new String();
+
+		try {
+			Statement stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			String applications = new String();
+
+			while (rs.next()) {
+				applications = rs.getString("application_list");
+			}
+
+			if (applications == null || applications.isEmpty()) {
+				update_value = userId + ":" + appId + "|";
+			}else{
+				update_value = applications +userId + ":" + appId + "|";
+			}
+			String update_sql = "UPDATE entity_Mapping SET application_list='" + update_value + "' WHERE JobId=" + jobId;
+
+			executeSQL(update_sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

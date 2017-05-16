@@ -8,8 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import au.edu.unsw.soacourse.dao.EntityMappingDao;
 import au.edu.unsw.soacourse.dao.foundITDao;
 import au.edu.unsw.soacourse.dto.DTOJobPostings;
+import au.edu.unsw.soacourse.dto.EntityMapping;
+import au.edu.unsw.soacourse.dto.User;
 import au.edu.unsw.soacourse.restResources.JobsServices;
 
 public class CandidateRequestHandler {
@@ -84,4 +87,40 @@ public class CandidateRequestHandler {
 		HttpSession session = request.getSession();
 		session.setAttribute("job_results", jobs);
 	}
+
+	public void applyJob(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String jobid = (String) session.getAttribute("apply-job-id");
+		String apply_job_resume = request.getParameter("apply_job_resume");
+		String apply_job_coverLetter = request.getParameter("apply_job_coverLetter");
+		String apply_job_email = request.getParameter("apply_job_email");
+		String apply_job_name = request.getParameter("apply_job_name");
+
+		User user = (User) session.getAttribute("user");
+		String user_id = Integer.toString(user.getUser_id());
+
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("job_id", jobid);
+		params.put("candidate_name", apply_job_name);
+		params.put("candidate_id", user_id);
+		params.put("cover_letter", apply_job_coverLetter);
+		params.put("resume", apply_job_resume);
+		params.put("email", apply_job_email);
+		params.put("application_status", "open");
+		params.put("security_key", "found-it");
+		params.put("short_key", "app-candidate");
+
+		try {
+			JobsServices jobber = new JobsServices();
+			Integer applnId = jobber.submitApplication(params);
+			
+			EntityMappingDao dao = new EntityMappingDao();
+			dao.applyJob(applnId.toString(), jobid, user_id);
+			dao.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }
