@@ -130,9 +130,14 @@ public class PollDao {
 		String sql = "SELECT pId AS value FROM polls_info ORDER BY pId DESC LIMIT 1";
 		return retrieveValue(sql);
 	}
-	
+
 	public int getLastVoteId() {
 		String sql = "SELECT voteId AS value FROM votes_info ORDER BY voteId DESC LIMIT 1";
+		return retrieveValue(sql);
+	}
+	
+	public int getLastCommentId() {
+		String sql = "SELECT commentId AS value FROM comments_info ORDER BY commentId DESC LIMIT 1";
 		return retrieveValue(sql);
 	}
 
@@ -187,17 +192,17 @@ public class PollDao {
 
 		rs.close();
 		stmt.close();
-		
+
 		if (vote.getVoteId() == 0) {
 			throw new IOException("No entry for pollId" + voteId);
 		}
-		
+
 		return vote;
 
 	}
 
 	// Get the votes associated to a poll
-	public List<Vote> getVotesOnPoll(int pollId) throws SQLException {
+	public List<Vote> getVotesOnPoll(int pollId) throws SQLException, IOException {
 		List<Vote> votes = new ArrayList<Vote>();
 
 		Statement stmt = c.createStatement();
@@ -215,6 +220,9 @@ public class PollDao {
 			vote.setChosen_option(rs.getInt("chosen_option"));
 			votes.add(vote);
 		}
+		if (votes.size() < 1) {
+			throw new IOException("No votes on the poll");
+		}
 
 		rs.close();
 		stmt.close();
@@ -223,7 +231,7 @@ public class PollDao {
 	}
 
 	// Get the comments associated to a poll
-	public List<Comment> getCommentsOnPoll(int pollId) throws SQLException {
+	public List<Comment> getCommentsOnPoll(int pollId) throws SQLException, IOException {
 		List<Comment> comments = new ArrayList<Comment>();
 
 		Statement stmt = c.createStatement();
@@ -241,6 +249,10 @@ public class PollDao {
 			comment.setAssociated_comment_id(rs.getInt("associated_comment_id"));
 			comment.setDate(rs.getString("date"));
 			comments.add(comment);
+		}
+		
+		if (comments.size() < 1) {
+			throw new IOException("No comments on the poll");
 		}
 
 		rs.close();
@@ -387,8 +399,6 @@ public class PollDao {
 		// // TODO Auto-generated catch block
 		// e.printStackTrace();
 		// }
-
-		
 
 	}
 

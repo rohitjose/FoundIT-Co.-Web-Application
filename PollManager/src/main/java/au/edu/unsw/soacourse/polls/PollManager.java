@@ -458,20 +458,95 @@ public class PollManager {
 		return Response.ok().entity(vote).build();
 	}
 
+	@GET
+	@Path("/vote/pollId/{input}")
+	@Produces("application/json")
+	public Response getPollIdVotes(@PathParam("input") String input, @HeaderParam("SecurityKey") String securityKey,
+			@HeaderParam("ShortKey") String shortKey) {
+		List<Vote> votes = new ArrayList<Vote>();
+
+		// Authenticate the client
+		try {
+			checkFoundITClient(securityKey);
+		} catch (IOException | NullPointerException e1) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1002");
+			error.setErrorDescription(e1.getMessage());
+			return Response.status(Response.Status.UNAUTHORIZED).entity(error).build();
+		}
+
+		// Check for authorization
+		if (shortKey == null || !shortKey.equals("app-manager")) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1002");
+			error.setErrorDescription("Request cannot be processed - User not authorized to perform the action");
+			return Response.status(Response.Status.FORBIDDEN).entity(error).build();
+		}
+
+		int pollId = 0;
+
+		// Validate Input
+		try {
+			pollId = Integer.parseInt(input);
+		} catch (NumberFormatException e2) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1001");
+			error.setErrorDescription("Invalid voteId - " + e2.getMessage());
+			return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+		}
+
+		PollDao dao = new PollDao();
+
+		try {
+			votes = dao.getVotesOnPoll(pollId);
+		} catch (SQLException e) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1003");
+			error.setErrorDescription("Server Error - " + e.getMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
+		} catch (IOException e) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1004");
+			error.setErrorDescription("Resource not found - " + e.getMessage());
+			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
+		}
+
+		return Response.ok().entity(votes).build();
+	}
+
 	/* SERVICES FOR THE COMMENTS */
 	@GET
 	@Path("/comments/{input}")
 	@Produces("application/json")
-	public Response getComments(@PathParam("input") String input) {
+	public Response getComments(@PathParam("input") String input, @HeaderParam("SecurityKey") String securityKey,
+			@HeaderParam("ShortKey") String shortKey) {
 		int pollId = Integer.parseInt(input);
 		List<Comment> comments = new ArrayList<Comment>();
+
+		// Authenticate the client
+		try {
+			checkFoundITClient(securityKey);
+		} catch (IOException | NullPointerException e1) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1002");
+			error.setErrorDescription(e1.getMessage());
+			return Response.status(Response.Status.UNAUTHORIZED).entity(error).build();
+		}
 
 		PollDao dao = new PollDao();
 
 		try {
 			comments = dao.getCommentsOnPoll(pollId);
 		} catch (SQLException e) {
-			return Response.status(Response.Status.NOT_FOUND).entity("Entity not found for pollId: " + pollId).build();
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1003");
+			error.setErrorDescription("Server Error - " + e.getMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
+		} catch (IOException e) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1004");
+			error.setErrorDescription("Resource not found - " + e.getMessage());
+			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
 		}
 
 		return Response.ok().entity(comments).build();
@@ -481,16 +556,38 @@ public class PollManager {
 	@Produces("application/json")
 	@Consumes("application/json")
 	@Path("/comments")
-	public Response addComment(Comment comment) {
+	public Response addComment(Comment comment, @HeaderParam("SecurityKey") String securityKey,
+			@HeaderParam("ShortKey") String shortKey) {
 		PollDao dao = new PollDao();
+
+		// Authenticate the client
+		try {
+			checkFoundITClient(securityKey);
+		} catch (IOException | NullPointerException e1) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1002");
+			error.setErrorDescription(e1.getMessage());
+			return Response.status(Response.Status.UNAUTHORIZED).entity(error).build();
+		}
+
+		// Validate input
+		try {
+			comment.checkCommentInput();
+		} catch (NullPointerException e1) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1001");
+			error.setErrorDescription("Invalid Request - " + e1.getMessage());
+			return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+		}
 
 		try {
 			dao.insertComment(comment);
+			comment.setCommentId(dao.getLastCommentId());
 		} catch (SQLException e) {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 
-		return Response.ok().entity("SUCCESS").build();
+		return Response.status(Response.Status.CREATED).entity(comment).build();
 	}
 
 }

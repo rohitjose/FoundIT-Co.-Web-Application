@@ -9,6 +9,22 @@ public class Comment {
 	String participant_name;
 	int associated_comment_id;
 	String date;
+	
+	public void checkCommentInput() throws NullPointerException{
+		if(this.pollId==0){
+			throw new NullPointerException("No pollId provided");
+		}
+		if(this.content==null){
+			throw new NullPointerException("No content provided");
+		}
+		if(this.participant_name==null){
+			throw new NullPointerException("No participant_name provided");
+		}
+		if(this.date==null){
+			throw new NullPointerException("No date provided");
+		}
+		
+	}
 	/**
 	 * @return the commentId
 	 */
