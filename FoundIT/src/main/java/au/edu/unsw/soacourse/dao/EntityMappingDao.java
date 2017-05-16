@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+
+import au.edu.unsw.soacourse.dto.EntityMapping;
 
 public class EntityMappingDao {
 
@@ -78,8 +81,99 @@ public class EntityMappingDao {
 		}
 
 	}
-	
+
+	public void assignTeam(String appId, String reviewers) {
+		String sql = "SELECT id FROM entity_Mapping WHERE application_list LIKE '%:" + appId + "|%";
+		try {
+			Statement stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			int entity_id = 0;
+
+			while (rs.next()) {
+				entity_id = rs.getInt("id");
+			}
+
+			String update_sql = "UPDATE entity_Mapping SET review_team='" + reviewers + "' WHERE id=" + entity_id;
+
+			executeSQL(update_sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public void closeConnection() throws SQLException {
 		c.close();
+	}
+
+	public void scheduleInterview(String polls, String jobId) {
+		String sql = "SELECT id FROM entity_Mapping WHERE jobId=" + jobId;
+		try {
+			Statement stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			int entity_id = 0;
+
+			while (rs.next()) {
+				entity_id = rs.getInt("id");
+			}
+
+			String update_sql = "UPDATE entity_Mapping SET poll_list='" + polls + "' WHERE id=" + entity_id;
+
+			executeSQL(update_sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public ArrayList<EntityMapping> getEntityMappings(int manager_id) {
+		ArrayList<EntityMapping> entities = new ArrayList<EntityMapping>();
+		String sql = "SELECT * FROM entity_Mapping WHERE manager_id=" + manager_id;
+
+		try {
+			Statement stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			int entity_id = 0;
+
+			while (rs.next()) {
+				EntityMapping entity = new EntityMapping();
+				entity.setJobId(rs.getInt("jobId"));
+				entity.setManager_id(rs.getInt("manager_id"));
+				entity.setApplications(rs.getString("application_list"));
+				entity.setPolls(rs.getString("poll_list"));
+				entity.setReview_team(rs.getString("review_team"));
+				entities.add(entity);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return entities;
+	}
+
+	public ArrayList<String> getManagerJobIds(int manager_id) {
+		String sql = "SELECT jobId FROM entity_Mapping WHERE manager_id=" + manager_id;
+		ArrayList<String> jobIds = new ArrayList<String>();
+
+		try {
+			Statement stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			int entity_id = 0;
+
+			while (rs.next()) {
+				entity_id = rs.getInt("jobId");
+				jobIds.add(Integer.toString(entity_id));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return jobIds;
 	}
 }

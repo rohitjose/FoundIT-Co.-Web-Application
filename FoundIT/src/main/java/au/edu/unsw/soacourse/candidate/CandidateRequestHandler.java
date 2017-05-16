@@ -1,12 +1,16 @@
 package au.edu.unsw.soacourse.candidate;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import au.edu.unsw.soacourse.dao.foundITDao;
+import au.edu.unsw.soacourse.dto.DTOJobPostings;
+import au.edu.unsw.soacourse.restResources.JobsServices;
 
 public class CandidateRequestHandler {
 
@@ -56,7 +60,7 @@ public class CandidateRequestHandler {
 		queryParams.put("skills", skills);
 
 		int user_id = dao.signUpUser(queryParams);
-		
+
 		try {
 			dao.closeConnection();
 		} catch (SQLException e) {
@@ -65,4 +69,19 @@ public class CandidateRequestHandler {
 		}
 	}
 
+	public void searchJobs(HttpServletRequest request, HttpServletResponse response) {
+		String search_position = request.getParameter("search_position");
+		String search_description = request.getParameter("search_description");
+		String search_location = request.getParameter("search_location");
+		String search_salary = request.getParameter("search_salary");
+		String search_company = request.getParameter("search_company");
+
+		DTOJobPostings job = new DTOJobPostings("0", search_company, search_salary, search_position, search_location,
+				search_description, "open", "found-it", "app-candidate");
+		JobsServices jobber = new JobsServices();
+		ArrayList<DTOJobPostings> jobs = jobber.searchJobs(job);
+
+		HttpSession session = request.getSession();
+		session.setAttribute("job_results", jobs);
+	}
 }

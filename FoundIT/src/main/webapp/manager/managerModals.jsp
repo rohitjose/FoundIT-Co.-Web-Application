@@ -73,7 +73,7 @@
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-2">
 					<div class="modal-body">
-						<h2>Schedule Interview</h2>
+						<h2>Profile</h2>
 						<hr class="star-primary">
 						<jsp:include page="../generic/logoutPane.jsp" />
 					</div>

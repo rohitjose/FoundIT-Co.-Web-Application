@@ -96,7 +96,6 @@ public class ManagerRequestHandler {
 
 		// Extract input
 		String poll_jobId = request.getParameter("poll_jobId");
-		String dates = new String();
 
 		// Get the date options
 		List<String> date_options = new ArrayList<String>();
@@ -135,6 +134,19 @@ public class ManagerRequestHandler {
 		locationPoll = poller.createPoll(locationPoll, "app-manager");
 		System.out.println(locationPoll.getPollId());
 
+		String polls = datePoll.getPollId() + "|" + locationPoll.getPollId();
+
+		// Update entity mapping
+		try {
+			EntityMappingDao dao = new EntityMappingDao();
+			dao.scheduleInterview(polls, poll_jobId);
+
+			dao.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	public void createJobPost(HttpServletRequest request, HttpServletResponse response) throws SQLException {
@@ -157,9 +169,59 @@ public class ManagerRequestHandler {
 
 		EntityMappingDao dao = new EntityMappingDao();
 		dao.insertMapping(job_id, manager_id, "", "", "");
-		
+
 		dao.closeConnection();
 
+	}
+
+	public void assignTeam(HttpServletRequest request, HttpServletResponse response) {
+		String applicationId = request.getParameter("assignTeam_applicationId");
+		String reviewer1 = request.getParameter("assignTeam_reviewer_1");
+		String reviewer2 = request.getParameter("assignTeam_reviewer_2");
+		String reviewers = reviewer1 + "|" + reviewer2;
+
+		try {
+			EntityMappingDao dao = new EntityMappingDao();
+			dao.assignTeam(applicationId, reviewers);
+
+			dao.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public ArrayList<DTOJobPostings> getManagerJobs(int manager_id) {
+		EntityMappingDao dao = new EntityMappingDao();
+		ArrayList<String> jobIds = new ArrayList<String>();
+		ArrayList<DTOJobPostings> manager_jobs = new ArrayList<DTOJobPostings>();
+		JobsServices jobb = new JobsServices();
+
+		jobIds = dao.getManagerJobIds(manager_id);
+
+		for (String jobId : jobIds) {
+			DTOJobPostings job = new DTOJobPostings(jobId, "", "", "", "", "", "open", "found-it", "app-manager");
+			job = jobb.searchJobs(job).get(0);
+
+			if (job != null) {
+				manager_jobs.add(job);
+			}
+		}
+
+		return manager_jobs;
+
+	}
+
+	public void mapManagerJobs(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+
+		if (user.getRole().equals("app-manager")) {
+			int manager_id = user.getUser_id();
+
+			session.setAttribute("manager_jobs", getManagerJobs(manager_id));
+		}
 	}
 
 }

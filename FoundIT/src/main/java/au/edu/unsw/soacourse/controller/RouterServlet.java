@@ -80,6 +80,36 @@ public class RouterServlet extends HttpServlet {
 			response.setContentType("text/html;charset=UTF-8");
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
+		} else if (action.equals("assign_team")) {
+			// Assign a team
+			ManagerRequestHandler manager = new ManagerRequestHandler();
+			manager.assignTeam(request, response);
+
+			response.setContentType("text/html;charset=UTF-8");
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/userHome.jsp");
+			rd.forward(request, response);
+		} else if (action.equals("search_job")) {
+			// Search for jobs
+			CandidateRequestHandler candidate = new CandidateRequestHandler();
+			candidate.searchJobs(request, response);
+			response.setContentType("text/html;charset=UTF-8");
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/userHome.jsp");
+			rd.forward(request, response);
+		} else if (action.equals("apply_job")) {
+			String jobId = request.getParameter("jobId");
+			HttpSession session = request.getSession();
+			session.setAttribute("apply-job-id", jobId);
+			response.setContentType("text/html;charset=UTF-8");
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/applyJob.jsp");
+			rd.forward(request, response);
+
+			session.setAttribute("job_results", null);
+		} else if (action.equals("apply_job_form")) {
+			
+			
+			response.setContentType("text/html;charset=UTF-8");
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/userHome.jsp");
+			rd.forward(request, response);
 		}
 
 	}
@@ -119,7 +149,7 @@ public class RouterServlet extends HttpServlet {
 				e1.printStackTrace();
 			}
 		}
-		
+
 		dao.closeConnection();
 
 		if (user.getUsername() != null) {
