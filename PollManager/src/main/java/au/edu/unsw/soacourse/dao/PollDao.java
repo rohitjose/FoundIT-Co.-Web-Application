@@ -130,6 +130,11 @@ public class PollDao {
 		String sql = "SELECT pId AS value FROM polls_info ORDER BY pId DESC LIMIT 1";
 		return retrieveValue(sql);
 	}
+	
+	public int getLastVoteId() {
+		String sql = "SELECT voteId AS value FROM votes_info ORDER BY voteId DESC LIMIT 1";
+		return retrieveValue(sql);
+	}
 
 	// Get a poll using the pollId
 	public Poll getPoll(int pollId) throws SQLException, IOException {
@@ -161,7 +166,7 @@ public class PollDao {
 	}
 
 	// Get the vote
-	public Vote getVote(int voteId) throws SQLException {
+	public Vote getVote(int voteId) throws SQLException, IOException {
 
 		Vote vote = new Vote();
 
@@ -182,6 +187,11 @@ public class PollDao {
 
 		rs.close();
 		stmt.close();
+		
+		if (vote.getVoteId() == 0) {
+			throw new IOException("No entry for pollId" + voteId);
+		}
+		
 		return vote;
 
 	}
@@ -378,13 +388,7 @@ public class PollDao {
 		// e.printStackTrace();
 		// }
 
-		String test = "options1|options2";
-
-		List<String> list = Arrays.asList(test.split("\\|"));
-
-		for (String t : list) {
-			System.out.println(t);
-		}
+		
 
 	}
 

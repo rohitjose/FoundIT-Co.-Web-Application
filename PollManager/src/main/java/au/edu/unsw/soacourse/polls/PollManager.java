@@ -205,10 +205,31 @@ public class PollManager {
 		PollDao dao = new PollDao();
 		List<Poll> polls = new ArrayList<Poll>();
 
+		// Authenticate the client
+		try {
+			checkFoundITClient(securityKey);
+		} catch (IOException | NullPointerException e1) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1002");
+			error.setErrorDescription(e1.getMessage());
+			return Response.status(Response.Status.UNAUTHORIZED).entity(error).build();
+		}
+
+		// Check for authorization
+		if (shortKey == null || !shortKey.equals("app-manager")) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1002");
+			error.setErrorDescription("Request cannot be processed - User not authorized to perform the action");
+			return Response.status(Response.Status.FORBIDDEN).entity(error).build();
+		}
+
 		try {
 			polls = dao.searchPolls(query);
 		} catch (SQLException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1003");
+			error.setErrorDescription("Server Error - " + e.getMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		}
 
 		return Response.ok().entity(polls).build();
@@ -219,7 +240,35 @@ public class PollManager {
 	@Produces("application/json")
 	public Response deletePoll(@PathParam("input") String input, @HeaderParam("SecurityKey") String securityKey,
 			@HeaderParam("ShortKey") String shortKey) {
-		int pollId = Integer.parseInt(input);
+
+		int pollId = 0;
+		// Authenticate the client
+		try {
+			checkFoundITClient(securityKey);
+		} catch (IOException | NullPointerException e1) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1002");
+			error.setErrorDescription(e1.getMessage());
+			return Response.status(Response.Status.UNAUTHORIZED).entity(error).build();
+		}
+
+		// Check for authorization
+		if (shortKey == null || !shortKey.equals("app-manager")) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1002");
+			error.setErrorDescription("Request cannot be processed - User not authorized to perform the action");
+			return Response.status(Response.Status.FORBIDDEN).entity(error).build();
+		}
+
+		// Validate Input
+		try {
+			pollId = Integer.parseInt(input);
+		} catch (NumberFormatException e2) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1001");
+			error.setErrorDescription("Invalid pollId - " + e2.getMessage());
+			return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+		}
 		Poll poll = new Poll();
 
 		PollDao dao = new PollDao();
@@ -228,10 +277,15 @@ public class PollManager {
 			poll = dao.getPoll(pollId);
 			dao.deletePoll(pollId);
 		} catch (SQLException e) {
-			return Response.status(Response.Status.NOT_FOUND).entity("Entity not found for pollId: " + pollId).build();
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1003");
+			error.setErrorDescription("Server Error - " + e.getMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1004");
+			error.setErrorDescription("Resource not found - " + e.getMessage());
+			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
 		}
 
 		return Response.ok().entity(poll).build();
@@ -241,8 +295,29 @@ public class PollManager {
 	@GET
 	@Path("/vote/{input}")
 	@Produces("application/json")
-	public Response getVote(@PathParam("input") String input) {
-		int voteId = Integer.parseInt(input);
+	public Response getVote(@PathParam("input") String input, @HeaderParam("SecurityKey") String securityKey,
+			@HeaderParam("ShortKey") String shortKey) {
+		// Authenticate the client
+		try {
+			checkFoundITClient(securityKey);
+		} catch (IOException | NullPointerException e1) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1002");
+			error.setErrorDescription(e1.getMessage());
+			return Response.status(Response.Status.UNAUTHORIZED).entity(error).build();
+		}
+
+		int voteId = 0;
+
+		// Validate Input
+		try {
+			voteId = Integer.parseInt(input);
+		} catch (NumberFormatException e2) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1001");
+			error.setErrorDescription("Invalid voteId - " + e2.getMessage());
+			return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+		}
 		Vote vote = new Vote();
 
 		PollDao dao = new PollDao();
@@ -250,7 +325,15 @@ public class PollManager {
 		try {
 			vote = dao.getVote(voteId);
 		} catch (SQLException e) {
-			return Response.status(Response.Status.NOT_FOUND).entity("Entity not found for pollId: " + voteId).build();
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1003");
+			error.setErrorDescription("Server Error - " + e.getMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
+		} catch (IOException e) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1004");
+			error.setErrorDescription("Resource not found - " + e.getMessage());
+			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
 		}
 
 		return Response.ok().entity(vote).build();
@@ -260,32 +343,119 @@ public class PollManager {
 	@Produces("application/json")
 	@Consumes("application/json")
 	@Path("/vote")
-	public Response addVote(Vote vote) {
+	public Response addVote(Vote vote, @HeaderParam("SecurityKey") String securityKey,
+			@HeaderParam("ShortKey") String shortKey) {
+
+		// Authenticate the client
+		try {
+			checkFoundITClient(securityKey);
+		} catch (IOException | NullPointerException e1) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1002");
+			error.setErrorDescription(e1.getMessage());
+			return Response.status(Response.Status.UNAUTHORIZED).entity(error).build();
+		}
+
 		PollDao dao = new PollDao();
+
+		// Validate input
+		try {
+			vote.checkVoteInput();
+		} catch (NullPointerException e1) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1001");
+			error.setErrorDescription("Invalid Request - " + e1.getMessage());
+			return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+		}
 
 		try {
 			dao.insertVote(vote);
+			vote.setVoteId(dao.getLastVoteId());
 		} catch (SQLException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1003");
+			error.setErrorDescription("Server Error - " + e.getMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		}
 
-		return Response.ok().entity("SUCCESS").build();
+		return Response.status(Response.Status.CREATED).entity(vote).build();
 	}
 
 	@PUT
 	@Produces("application/json")
 	@Consumes("application/json")
 	@Path("/vote")
-	public Response updateVote(PollQuery query) {
+	public Response updateVote(PollQuery query, @HeaderParam("SecurityKey") String securityKey,
+			@HeaderParam("ShortKey") String shortKey) {
+		// Authenticate the client
+		try {
+			checkFoundITClient(securityKey);
+		} catch (IOException | NullPointerException e1) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1002");
+			error.setErrorDescription(e1.getMessage());
+			return Response.status(Response.Status.UNAUTHORIZED).entity(error).build();
+		}
+
 		PollDao dao = new PollDao();
+		int voteId = query.getVoteId();
+
+		// Validate input
+		if (voteId == 0) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1001");
+			error.setErrorDescription("Invalid voteId - The voteId specified in the request is invalid");
+			return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+		}
+
+		// Check if the vote exists
+		Vote vote = new Vote();
+		try {
+			vote = dao.getVote(voteId);
+		} catch (SQLException e1) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1003");
+			error.setErrorDescription("Server Error - " + e1.getMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
+		} catch (IOException e1) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1004");
+			error.setErrorDescription("Resource not found - " + e1.getMessage());
+			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
+		}
+
+		Poll poll = new Poll();
+		try {
+			poll = dao.getPoll(vote.getPollId());
+		} catch (SQLException e1) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1003");
+			error.setErrorDescription("Server Error - " + e1.getMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
+		} catch (IOException e1) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1004");
+			error.setErrorDescription("Resource not found - " + e1.getMessage());
+			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
+		}
+
+		if (poll.getFinal_choice() > 0) {
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1001");
+			error.setErrorDescription("Invalid voteId - The poll is closed");
+			return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+		}
 
 		try {
 			dao.updateSQL(query);
 		} catch (SQLException e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+			ErrorResponse error = new ErrorResponse();
+			error.setErrorCode("1003");
+			error.setErrorDescription("Server Error - " + e.getMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
 		}
 
-		return Response.ok().entity("SUCCESS").build();
+		return Response.ok().entity(vote).build();
 	}
 
 	/* SERVICES FOR THE COMMENTS */

@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class PollQuery {
 	String component;
 	int pollId;
+	int voteId;
 	HashMap<String, String> match_conditions;
 	HashMap<String, String> update_values;
 
@@ -74,5 +75,21 @@ public class PollQuery {
 	public void setUpdate_values(HashMap<String, String> update_values) {
 		this.update_values = update_values;
 	}
+
+	/**
+	 * @return the voteId
+	 */
+	public int getVoteId() {
+		return voteId;
+	}
+
+	/**
+	 * @param voteId the voteId to set
+	 */
+	public void setVoteId(int voteId) {
+		this.voteId = voteId;
+	}
+	
+	
 
 }
