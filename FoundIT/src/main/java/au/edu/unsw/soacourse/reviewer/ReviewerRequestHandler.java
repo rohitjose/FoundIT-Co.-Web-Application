@@ -40,6 +40,13 @@ public class ReviewerRequestHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		try {
+			dao.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

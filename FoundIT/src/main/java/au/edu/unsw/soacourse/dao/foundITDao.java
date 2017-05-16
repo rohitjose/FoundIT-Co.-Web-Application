@@ -19,6 +19,8 @@ public class foundITDao {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:" + this.getClass().getResource("/").getPath() + "foundIT");
+			System.out.println("jdbc:sqlite:" + this.getClass().getResource("/").getPath() + "foundIT");
+			System.out.println(getClass().getResource("/").getPath());
 			c.setAutoCommit(false);
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -175,7 +177,8 @@ public class foundITDao {
 
 		while (rs.next()) {
 			user.setUser_id(rs.getInt("id"));
-			user.setEmail(rs.getString("username"));
+			user.setEmail(rs.getString("email"));
+			user.setUsername(rs.getString("username"));
 			auth_pass = rs.getString("password");
 			user.setRole(rs.getString("role"));
 		}

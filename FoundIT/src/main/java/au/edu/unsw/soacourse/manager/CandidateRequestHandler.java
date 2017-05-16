@@ -1,5 +1,6 @@
 package au.edu.unsw.soacourse.manager;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +56,13 @@ public class CandidateRequestHandler {
 		queryParams.put("skills", skills);
 
 		int user_id = dao.signUpUser(queryParams);
+		
+		try {
+			dao.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -299,6 +299,7 @@ function loginUser() {
 		},
 		success : function(data) {
 			console.log('Done');
+			window.location = "../FoundITClient/userHome.jsp";
 
 		}
 	}

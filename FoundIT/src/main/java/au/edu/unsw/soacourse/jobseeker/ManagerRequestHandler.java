@@ -58,15 +58,24 @@ public class ManagerRequestHandler {
 			String team_password = request.getParameter("manager_team_password_" + i);
 
 			if (team_user != null && !team_user.equals("")) {
-				dao.insertUser(team_user, "default_"+team_password, "app-reviewer");
+				dao.insertUser(team_user, "default_" + team_password, "app-reviewer");
 				teamMemberList += team_user + "|";
 			}
 		}
 
-		teamMemberList = teamMemberList.substring(0, teamMemberList.length() - 1);
+		if (teamMemberList.length() > 2) {
+			teamMemberList = teamMemberList.substring(0, teamMemberList.length() - 1);
 
+			try {
+				dao.insertHiringTeam(teamMemberList, manager_id);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		try {
-			dao.insertHiringTeam(teamMemberList, manager_id);
+			dao.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

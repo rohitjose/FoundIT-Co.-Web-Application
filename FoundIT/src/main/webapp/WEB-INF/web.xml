@@ -17,7 +17,7 @@
 		<servlet-name>routerServlet</servlet-name>
 		<url-pattern>/signup</url-pattern>
 		<url-pattern>/search</url-pattern>
-		<url-pattern>/next</url-pattern>
+		<url-pattern>/login</url-pattern>
 		<url-pattern>/previous</url-pattern>
 	</servlet-mapping>
 </web-app>
