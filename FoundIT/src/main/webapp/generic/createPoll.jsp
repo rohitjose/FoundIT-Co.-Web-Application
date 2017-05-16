@@ -16,7 +16,7 @@
 			</a></li>
 		</ul>
 	</div>
-	<form id="postPoll" action="job" method="post" novalidate>
+	<form id="postPoll" action="job" method="post">
 		<input type="hidden" name="action" value="post_poll" />
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="step-1">
@@ -26,7 +26,7 @@
 						<div class="form-group">
 							<label class="control-label">Job Id</label> <input
 								maxlength="100" type="text" required="required"
-								class="form-control" placeholder="Enter Job Id" id="poll_jobId" />
+								class="form-control" placeholder="Enter Job Id" name="poll_jobId" />
 						</div>
 					</div>
 					<h3>Select Date</h3>
@@ -38,7 +38,7 @@
 							<label class="control-label">Option <%=i%></label> <input
 								maxlength="10" type="text" required="required"
 								class="form-control" placeholder="Enter Option <%=i%>"
-								id="poll_date_option_<%=i%>" />
+								name="poll_date_option_<%=i%>" />
 						</div>
 					</div>
 					<%
@@ -57,16 +57,16 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="control-label">Option <%=i%></label> <input
-								maxlength="10" type="text" required="required"
+								maxlength="100" type="text" required="required"
 								class="form-control" placeholder="Enter Option <%=i%>"
-								id="poll_location_option_<%=i%>" />
+								name="poll_location_option_<%=i%>" />
 						</div>
 					</div>
 					<%
 						}
 					%>
 					<a id="step-2-next"
-						class="btn btn-lg btn-primary nextBtn pull-right"">Next</a>
+						class="btn btn-lg btn-primary nextBtn pull-right">Next</a>
 				</div>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="step-3">
@@ -74,7 +74,7 @@
 					<br> <br>
 					<p>Please click on the below button to Schedule the interview</p>
 					<button id="step-3-next" class="btn btn-lg btn-primary pull-right"
-						data-dismiss="modal" type="submit" onclick="createPoll()">Update</button>
+						data-dismiss="modal" type="submit" onclick="createPoll()">Schedule</button>
 				</div>
 			</div>
 		</div>

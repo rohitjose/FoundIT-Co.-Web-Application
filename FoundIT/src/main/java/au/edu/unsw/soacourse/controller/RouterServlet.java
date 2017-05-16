@@ -40,7 +40,8 @@ public class RouterServlet extends HttpServlet {
 			// Post Job
 		}else if (action.equals("post_poll")) {
 			// Post Poll
-			System.out.println("poll");
+			ManagerRequestHandler manager = new ManagerRequestHandler();
+			manager.createPoll(request, response);
 		}
 
 	}

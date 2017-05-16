@@ -336,11 +336,23 @@ function searchJobs() {
 	);
 }
 
-
-
-function createPoll(){
+function createPoll() {
+	alert($("#poll_jobId").val());
 	document.getElementById("postPoll").submit();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,12 +1,16 @@
 package au.edu.unsw.soacourse.manager;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import au.edu.unsw.soacourse.dao.foundITDao;
+import au.edu.unsw.soacourse.dto.Poll;
+import au.edu.unsw.soacourse.restResources.PollServices;
 
 public class ManagerRequestHandler {
 
@@ -73,7 +77,7 @@ public class ManagerRequestHandler {
 				e.printStackTrace();
 			}
 		}
-		
+
 		try {
 			dao.close();
 		} catch (SQLException e) {
@@ -83,4 +87,48 @@ public class ManagerRequestHandler {
 
 	}
 
+	public void createPoll(HttpServletRequest request, HttpServletResponse response) {
+
+		// Extract input
+		String poll_jobId = request.getParameter("poll_jobId");
+		String dates = new String();
+
+		// Get the date options
+		List<String> date_options = new ArrayList<String>();
+		for (int i = 1; i <= 5; i++) {
+			String option = request.getParameter("poll_date_option_" + i);
+			if (option != null && !option.isEmpty()) {
+				date_options.add(option);
+			}
+		}
+
+		// Get the location options
+		List<String> location_options = new ArrayList<String>();
+		for (int i = 1; i <= 5; i++) {
+			String option = request.getParameter("poll_location_option_" + i);
+			if (option != null && !option.isEmpty()) {
+				location_options.add(option);
+			}
+		}
+
+		PollServices poller = new PollServices();
+		// Create Date poll
+		Poll datePoll = new Poll();
+		datePoll.setPoll_title("Date Poll for Job - " + poll_jobId);
+		datePoll.setDescription("Interview date poll for Job" + poll_jobId);
+		datePoll.setPoll_option_type("date");
+		datePoll.setOptions(date_options);
+		datePoll = poller.createPoll(datePoll, "app-manager");
+		System.out.println(datePoll.getPollId());
+
+		// Create Location poll
+		Poll locationPoll = new Poll();
+		locationPoll.setPoll_title("Location Poll for Job - " + poll_jobId);
+		locationPoll.setDescription("Interview Location poll for Job" + poll_jobId);
+		locationPoll.setPoll_option_type("text");
+		locationPoll.setOptions(location_options);
+		locationPoll = poller.createPoll(locationPoll, "app-manager");
+		System.out.println(locationPoll.getPollId());
+
+	}
 }
