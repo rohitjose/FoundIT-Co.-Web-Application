@@ -160,7 +160,7 @@ public class ManagerRequestHandler {
 		User user = (User) session.getAttribute("user");
 		int manager_id = user.getUser_id();
 
-		DTOJobPostings job = new DTOJobPostings("0", postJob_company, postJob_salary, postJob_position,
+		DTOJobPostings job = new DTOJobPostings(null, postJob_company, postJob_salary, postJob_position,
 				postJob_location, postJob_description, "open", "found-it", "app-manager");
 
 		// Create posting REST call

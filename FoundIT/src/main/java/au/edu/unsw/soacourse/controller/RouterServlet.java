@@ -158,6 +158,10 @@ public class RouterServlet extends HttpServlet {
 				ManagerRequestHandler manager = new ManagerRequestHandler();
 				manager.mapManagerJobs(request, response);
 			}
+			if(user.getRole().equals("app-candidate")){
+				CandidateRequestHandler candidate = new CandidateRequestHandler();
+				candidate.mapApplications(request, response);
+			}
 
 			response.setContentType("text/html;charset=UTF-8");
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/userHome.jsp");

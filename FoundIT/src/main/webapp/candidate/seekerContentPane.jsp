@@ -1,4 +1,4 @@
-<%@ page import="au.edu.unsw.soacourse.dto.DTOJobPostings,java.util.*"%>
+<%@ page import="au.edu.unsw.soacourse.dto.DTOJobPostings,java.util.*,au.edu.unsw.soacourse.dto.DTOApplications"%>
 <section id="contact">
 	<div class="container">
 		<div class="row">
@@ -51,10 +51,53 @@
 						</tr>
 						<%
 							}
+						%>
+					</tbody>
+				</table>
+				<%
+					}
+				%>
+				<%
+					if (session.getAttribute("app_values") != null) {
+				%>
+				<table class="table">
+					<tr>
+						<th>Application Id</th>
+						<th>Job Id</th>
+						<th>Update</th>
+						<th>Delete</th>
+					</tr>
+					<tbody>
+						<%
+							ArrayList<DTOApplications> apps = (ArrayList<DTOApplications>) session.getAttribute("app_values");
+								for (DTOApplications app : apps) {
+						%>
+						<tr>
+							<td><%=app.getAppId()%></td>
+							<td><%=app.getJid()%></td>
+							<td>
+								<form id="updateApplication" action="job" method="post" novalidate>
+									<input type="hidden" name="action" value="update_app" /><input
+										type="hidden" name="jobId" value="<%=app.getAppId()%>" />
+									<button type="submit" class="btn btn-success btn-sm">Update</button>
+								</form>
+							</td>
+							<td>
+								<form id="deleteApplication" action="job" method="post" novalidate>
+									<input type="hidden" name="action" value="delete_app" /><input
+										type="hidden" name="jobId" value="<%=app.getAppId()%>" />
+									<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+								</form>
+							</td>
+						</tr>
+						<%
 							}
 						%>
 					</tbody>
 				</table>
+				<%
+					}
+				%>
 			</div>
 		</div>
 	</div>

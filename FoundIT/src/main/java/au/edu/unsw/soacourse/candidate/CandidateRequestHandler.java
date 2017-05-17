@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import au.edu.unsw.soacourse.dao.EntityMappingDao;
 import au.edu.unsw.soacourse.dao.foundITDao;
+import au.edu.unsw.soacourse.dto.DTOApplications;
 import au.edu.unsw.soacourse.dto.DTOJobPostings;
 import au.edu.unsw.soacourse.dto.EntityMapping;
 import au.edu.unsw.soacourse.dto.User;
@@ -113,7 +114,7 @@ public class CandidateRequestHandler {
 		try {
 			JobsServices jobber = new JobsServices();
 			Integer applnId = jobber.submitApplication(params);
-			
+
 			EntityMappingDao dao = new EntityMappingDao();
 			dao.applyJob(applnId.toString(), jobid, user_id);
 			dao.closeConnection();
@@ -121,6 +122,33 @@ public class CandidateRequestHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void mapApplications(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		ArrayList<String> appIds = new ArrayList<String>();
+		ArrayList<DTOApplications> applications = new ArrayList<DTOApplications>();
+
+		int user_id = user.getUser_id();
+
+		try {
+			EntityMappingDao dao = new EntityMappingDao();
+			appIds = dao.getUserAppIds(user_id);
+
+			for (String appid : appIds) {
+
+				DTOApplications app = new DTOApplications(appid, "", "", "", "", "", "",
+						"open", "found-it", "app-candidate");
+				applications.add(app);
+			}
+			dao.closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		session.setAttribute("app_values", applications);
 	}
 
 }

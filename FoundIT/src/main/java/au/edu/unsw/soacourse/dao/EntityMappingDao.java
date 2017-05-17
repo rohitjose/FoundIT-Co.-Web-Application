@@ -82,6 +82,35 @@ public class EntityMappingDao {
 
 	}
 
+	public ArrayList<String> getUserAppIds(int user_id) {
+		String sql = "SELECT application_list FROM entity_Mapping WHERE application_list LIKE '%" + user_id + ":%'";
+		ArrayList<String> appIds = new ArrayList<String>();
+
+		try {
+			Statement stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+
+			String appList = new String();
+
+			while (rs.next()) {
+				appList = rs.getString("application_list");
+				int begin = appList.indexOf(user_id + ":");
+				int end = begin;
+				while (appList.charAt(end) != '|') {
+					end += 1;
+				}
+				appList = appList.substring(begin, end);
+				appIds.add(appList);
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return appIds;
+	}
+
 	public void assignTeam(String appId, String reviewers) {
 		String sql = "SELECT id FROM entity_Mapping WHERE application_list LIKE '%:" + appId + "|%";
 		try {
@@ -193,10 +222,11 @@ public class EntityMappingDao {
 
 			if (applications == null || applications.isEmpty()) {
 				update_value = userId + ":" + appId + "|";
-			}else{
-				update_value = applications +userId + ":" + appId + "|";
+			} else {
+				update_value = applications + userId + ":" + appId + "|";
 			}
-			String update_sql = "UPDATE entity_Mapping SET application_list='" + update_value + "' WHERE JobId=" + jobId;
+			String update_sql = "UPDATE entity_Mapping SET application_list='" + update_value + "' WHERE JobId="
+					+ jobId;
 
 			executeSQL(update_sql);
 		} catch (SQLException e) {
